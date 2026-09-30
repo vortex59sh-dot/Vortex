@@ -17,7 +17,7 @@ body[data-page="store"] {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
   overflow: hidden;
 }
 
@@ -109,11 +109,6 @@ body[data-page="store"] {
   pointer-events: none;
 }
 
-/* ── 9. Content Above Background ─────────────────────────────────────── */
-body[data-page="store"] > *:not(.store-dynamic-bg) {
-  position: relative;
-  z-index: 1;
-}
 
 /* ── 10. Enhanced Store Card / Section Glass Effect ──────────────────── */
 /* White sections get subtle glass-card look */
