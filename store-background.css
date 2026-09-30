@@ -1,0 +1,325 @@
+/* ==========================================================================
+   VORTEX Streetwear — Store Background FX (Black & White Monochrome)
+   Style: Urban Ink Grain + Geometric Grid + Dust Particles Canvas
+   Concept: คนละแบบกับแอดมิน → โทนขาว-ดำ สไตล์สตรีทแวร์มินิมอล
+   ========================================================================== */
+
+/* ── 1. Root Body: Linen White Background ─────────────────────────────── */
+body[data-page="store"] {
+  background-color: #f5f4f2 !important; /* warm off-white like screen-printed canvas */
+  position: relative;
+}
+
+/* ── 2. Fixed Full-screen Background Container ────────────────────────── */
+.store-dynamic-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* ── 3. Halftone Dot Grid Layer (Street Art / Silkscreen Effect) ──────── */
+.store-halftone-layer {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+  mask-image: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    rgba(0, 0, 0, 0.85) 30%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    rgba(0, 0, 0, 0.85) 30%,
+    transparent 100%
+  );
+}
+
+/* ── 4. Thin Orthographic Grid Layer (Blueprint / Technical Drawing) ──── */
+.store-grid-layer {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.8;
+}
+
+/* ── 5. Ink Bleed Gradient Blobs (Monochrome Watercolor Wash) ─────────── */
+.store-ink-layer {
+  position: absolute;
+  inset: 0;
+  /* Subtle, warm-tone dark ink bleed */
+  background:
+    radial-gradient(ellipse 70% 55% at 0% 0%, rgba(0,0,0,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 65% at 100% 0%, rgba(30,30,30,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(0,0,0,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 15% 75%, rgba(20,20,20,0.04) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 85% 55%, rgba(10,10,10,0.04) 0%, transparent 60%);
+  animation: inkShift 30s ease-in-out infinite alternate;
+}
+
+@keyframes inkShift {
+  0%   { opacity: 0.70; transform: scale(1) translate(0px, 0px); }
+  33%  { opacity: 0.85; transform: scale(1.02) translate(10px, -8px); }
+  66%  { opacity: 0.75; transform: scale(0.98) translate(-8px, 12px); }
+  100% { opacity: 0.80; transform: scale(1.01) translate(5px, -4px); }
+}
+
+/* ── 6. Paper Grain Texture Overlay (Worn Streetwear Canvas) ──────────── */
+.store-grain-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  /* SVG-based monochrome noise grain */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  mix-blend-mode: multiply;
+}
+
+/* ── 7. Interactive Monochrome Particle Canvas ────────────────────────── */
+#storeInteractiveCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ── 8. Vignette Frame (Photography Dark Edges) ───────────────────────── */
+.store-vignette-layer {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 55%,
+    rgba(0, 0, 0, 0.12) 85%,
+    rgba(0, 0, 0, 0.22) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── 9. Content Above Background ─────────────────────────────────────── */
+body[data-page="store"] > *:not(.store-dynamic-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── 10. Enhanced Store Card / Section Glass Effect ──────────────────── */
+/* White sections get subtle glass-card look */
+body[data-page="store"] header {
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Service trust badges glass card */
+body[data-page="store"] .bg-white\/90 {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Product filter bar */
+body[data-page="store"] #productsSection .bg-white {
+  background: rgba(255, 255, 255, 0.90) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Footer glass */
+body[data-page="store"] footer {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ── 11. Monochrome Floating Dust Particle Keyframes ─────────────────── */
+@keyframes storeDustFloat {
+  0%   { transform: translate(0, 0) rotate(0deg);   opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.4; }
+  100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); opacity: 0; }
+}
+
+/* ── 12. Subtle Store Page Scrollbar ─────────────────────────────────── */
+body[data-page="store"]::-webkit-scrollbar-track {
+  background: #f0eeec;
+}
+
+body[data-page="store"]::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+body[data-page="store"]::-webkit-scrollbar-thumb:hover {
+  background: #000000;
+}
+
+/* ── 13. Diagonal Watermark Text Layer ───────────────────────────────── */
+.store-watermark-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.store-watermark-layer::before {
+  content: "VORTEX";
+  font-size: clamp(140px, 20vw, 280px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.04);
+  text-stroke: 1px rgba(0, 0, 0, 0.04);
+  user-select: none;
+  transform: rotate(-18deg) translateY(-10%);
+  white-space: nowrap;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  animation: watermarkDrift 60s linear infinite alternate;
+}
+
+.store-watermark-layer::after {
+  content: "STREETWEAR";
+  position: absolute;
+  font-size: clamp(60px, 10vw, 130px);
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.025);
+  text-stroke: 1px rgba(0, 0, 0, 0.025);
+  user-select: none;
+  transform: rotate(-18deg) translateY(60%);
+  white-space: nowrap;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  animation: watermarkDrift 80s linear infinite alternate-reverse;
+}
+
+@keyframes watermarkDrift {
+  0%   { transform: rotate(-18deg) translate(-3%, -12%); }
+  100% { transform: rotate(-18deg) translate(3%, -8%); }
+}
+
+/* ── 14. Horizontal Rule Accent Lines ────────────────────────────────── */
+.store-accent-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.12) 30%,
+    rgba(0, 0, 0, 0.08) 70%,
+    transparent
+  );
+}
+
+.store-accent-line-top {
+  top: 25%;
+  animation: lineSlide 18s ease-in-out infinite alternate;
+}
+
+.store-accent-line-mid {
+  top: 55%;
+  animation: lineSlide 22s ease-in-out infinite alternate-reverse;
+}
+
+.store-accent-line-bot {
+  top: 80%;
+  animation: lineSlide 14s ease-in-out infinite alternate;
+}
+
+@keyframes lineSlide {
+  0%   { transform: scaleX(0.6) translateX(-5%); opacity: 0.5; }
+  50%  { transform: scaleX(1.0) translateX(2%);  opacity: 1.0; }
+  100% { transform: scaleX(0.7) translateX(5%);  opacity: 0.6; }
+}
+
+/* ── 15. Corner Bracket Decorations (Street Photography Style) ───────── */
+.store-corner-decor {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  opacity: 0.12;
+}
+
+.store-corner-decor::before,
+.store-corner-decor::after {
+  content: '';
+  position: absolute;
+  background: #000000;
+}
+
+/* Top-left: horizontal + vertical bar */
+.store-corner-tl {
+  top: 24px;
+  left: 24px;
+}
+.store-corner-tl::before {
+  top: 0; left: 0;
+  width: 50px; height: 2px;
+}
+.store-corner-tl::after {
+  top: 0; left: 0;
+  width: 2px; height: 50px;
+}
+
+/* Top-right */
+.store-corner-tr {
+  top: 24px;
+  right: 24px;
+}
+.store-corner-tr::before {
+  top: 0; right: 0;
+  width: 50px; height: 2px;
+}
+.store-corner-tr::after {
+  top: 0; right: 0;
+  width: 2px; height: 50px;
+}
+
+/* Bottom-left */
+.store-corner-bl {
+  bottom: 24px;
+  left: 24px;
+}
+.store-corner-bl::before {
+  bottom: 0; left: 0;
+  width: 50px; height: 2px;
+}
+.store-corner-bl::after {
+  bottom: 0; left: 0;
+  width: 2px; height: 50px;
+}
+
+/* Bottom-right */
+.store-corner-br {
+  bottom: 24px;
+  right: 24px;
+}
+.store-corner-br::before {
+  bottom: 0; right: 0;
+  width: 50px; height: 2px;
+}
+.store-corner-br::after {
+  bottom: 0; right: 0;
+  width: 2px; height: 50px;
+}

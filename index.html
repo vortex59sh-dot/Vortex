@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VORTEX | ร้านเสื้อผ้าสตรีทแวร์มินิมอล ช้อปออนไลน์สไตล์ Shopee</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=20260919d" />
+
+  <!-- Store Background FX (Monochrome B&W) -->
+  <link rel="stylesheet" href="store-background.css" />
+  
+  <!-- Website Favicon -->
+  <link rel="icon" type="image/png" href="images/vortex_logo.png" />
+</head>
+<body data-page="store" class="bg-neutral-100 text-neutral-900 selection:bg-black selection:text-white">
+
+  <!-- 1. TOP ANNOUNCEMENT BAR -->
+  <div class="bg-black text-white text-xs py-2 px-4 border-b border-neutral-800">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex items-center gap-2 text-[11px] sm:text-xs">
+        <span class="bg-yellow-400 text-black font-black px-2 py-0.5 rounded text-[10px] uppercase tracking-wider flex items-center gap-1 shadow-sm animate-pulse">
+          <i class="fa-solid fa-bell"></i> ประกาศ
+        </span>
+        <span class="font-semibold">
+          <strong class="text-yellow-400 font-black">ตัดยอดส่งของทุกวัน 13:00 น.</strong> | ทุกออเดอร์ <strong class="text-emerald-400 underline decoration-emerald-400">จัดส่งฟรี ไม่มีค่าจัดส่ง</strong> ทั่วไทย!
+        </span>
+      </div>
+      <div class="flex items-center gap-4 text-[11px] text-gray-400">
+        <button onclick="openMyOrdersModal()" class="hover:text-white transition flex items-center gap-1">
+          <i class="fa-solid fa-truck-fast text-[10px]"></i> ติดตามสถานะพัสดุ
+        </button>
+        <span>|</span>
+        <a href="https://line.me/R/ti/p/@152zpxzv" target="_blank" rel="noopener noreferrer" class="hover:text-[#06C755] text-gray-300 font-semibold transition flex items-center gap-1">
+          <i class="fa-brands fa-line text-[#06C755] text-sm"></i> LINE: @152zpxzv
+        </a>
+        <span>|</span>
+        <span class="text-white font-medium flex items-center gap-1"><i class="fa-solid fa-globe"></i> ไทย (TH)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MAIN HEADER (SHOPEE STYLE - BLACK & WHITE) -->
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-neutral-200 header-shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 gap-4 md:gap-8">
+        
+        <!-- Brand Logo -->
+        <a href="index.html" class="flex items-center gap-2.5 shrink-0 group">
+          <div class="w-11 h-11 rounded-xl bg-white flex items-center justify-center p-1 border border-neutral-200 shadow-md group-hover:scale-105 transition-transform overflow-hidden">
+            <img src="images/vortex_logo.png" alt="VORTEX" class="w-full h-full object-contain" />
+          </div>
+          <div>
+            <div class="flex items-center gap-2.5">
+              <span class="text-2xl font-black tracking-wider text-black">VORTEX</span>
+              <span class="text-[10px] font-extrabold bg-black text-white px-2 py-0.5 rounded tracking-wider shadow-xs shimmer-badge border border-neutral-700">MALL</span>
+            </div>
+            <span class="block text-[9px] font-bold text-gray-400 tracking-[0.25em] uppercase mt-0.5">STREETWEAR ATELIER</span>
+          </div>
+        </a>
+
+        <!-- Shopee-style Search Bar with Quick Tags -->
+        <div class="flex-1 max-w-2xl hidden md:block">
+          <div class="flex border-2 border-black rounded-md overflow-hidden bg-white shadow-sm focus-within:ring-2 focus-within:ring-black/20 transition-all">
+            <input 
+              type="text" 
+              id="searchInput" 
+              placeholder="ค้นหาเสื้อผ้าสตรีทแวร์, เสื้อยืด Boxy, กางเกงคาร์โก้, แจ็กเก็ต..." 
+              class="w-full px-4 py-2.5 text-sm outline-none text-gray-800 placeholder-gray-400"
+            />
+            <button id="searchBtn" class="bg-black hover:bg-neutral-800 text-white px-6 flex items-center justify-center transition">
+              <i class="fa-solid fa-magnifying-glass text-sm"></i>
+            </button>
+          </div>
+          <!-- Quick Search Tags -->
+          <div class="flex items-center gap-3 mt-1.5 text-[11px] text-gray-500 overflow-x-auto whitespace-nowrap scrollbar-none">
+            <span class="text-gray-600 font-medium">ยอดนิยม:</span>
+            <button onclick="setQuickSearch('เสื้อกันหนาว')" class="hover:text-black font-bold text-black hover:underline transition"><i class="fa-solid fa-snowflake text-[10px] text-sky-500"></i> เสื้อกันหนาว</button>
+            <button onclick="setQuickSearch('Boxy Tee')" class="hover:text-black hover:underline transition">Boxy Tee</button>
+            <button onclick="setQuickSearch('Cargo')" class="hover:text-black hover:underline transition">Cargo Pants</button>
+            <button onclick="setQuickSearch('Hoodie')" class="hover:text-black hover:underline transition">Hoodie</button>
+            <button onclick="setQuickSearch('Cuban')" class="hover:text-black hover:underline transition">Cuban Shirt</button>
+            <button onclick="setQuickSearch('Bomber')" class="hover:text-black hover:underline transition">Bomber Jacket</button>
+            <span class="text-neutral-300">|</span>
+            <a href="#customerReviewsSection" class="text-neutral-900 font-bold hover:text-black hover:underline transition flex items-center gap-1">
+              <i class="fa-solid fa-star text-yellow-400 text-[10px]"></i> รีวิวลูกค้า
+            </a>
+          </div>
+        </div>
+
+        <!-- Action Section (Cart, Auth, Admin Link) -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          
+          <!-- Mobile Search Trigger -->
+          <button onclick="document.getElementById('mobileSearchBox').classList.toggle('hidden')" class="md:hidden text-xl text-neutral-800 p-2 hover:text-black transition">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+
+          <!-- Cart Button with Count Badge -->
+          <button class="cart-trigger-btn relative flex items-center gap-2 px-3 sm:px-4 py-2 bg-neutral-100 hover:bg-black hover:text-white rounded-full transition-all duration-200 group">
+            <div class="relative">
+              <i class="fa-solid fa-bag-shopping text-lg group-hover:scale-110 transition-transform"></i>
+              <span class="cart-count-badge absolute -top-2 -right-2.5 bg-black text-white group-hover:bg-white group-hover:text-black text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm transition-all hidden">
+                0
+              </span>
+            </div>
+            <span class="hidden sm:inline text-xs font-bold tracking-tight">ตะกร้า</span>
+          </button>
+
+          <!-- Dynamic Auth Area (Sign In / Member Profile / Admin Dashboard Link) -->
+          <div id="headerAuthSection" class="flex items-center">
+            <!-- Rendered by app.js: updateHeaderAuthUI() -->
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Mobile Search Box (Collapsible) -->
+      <div id="mobileSearchBox" class="hidden pb-4 md:hidden">
+        <div class="flex border-2 border-black rounded-md overflow-hidden bg-white shadow-sm">
+          <input 
+            type="text" 
+            oninput="state.searchKeyword = this.value.trim().toLowerCase(); applyFiltersAndRender();" 
+            placeholder="ค้นหาเสื้อผ้าสตรีทแวร์..." 
+            class="w-full px-3 py-2 text-xs outline-none"
+          />
+          <button class="bg-black text-white px-4 flex items-center justify-center">
+            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- 2.5 LUXURY RUNWAY MARQUEE TICKER -->
+  <div class="luxury-marquee-wrapper py-2.5 text-white">
+    <div class="luxury-marquee-track">
+      <div class="luxury-marquee-content text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase">
+        <span class="flex items-center gap-2"><i class="fa-solid fa-crown text-yellow-400 text-[10px]"></i> VORTEX ATELIER • AUTUMN / WINTER 2026</span>
+        <span class="text-neutral-600">✦</span>
+        <span class="flex items-center gap-2"><i class="fa-solid fa-gem text-yellow-400 text-[10px]"></i> LIMITED EDITION STREETWEAR</span>
+        <span class="text-neutral-600">✦</span>
+        <span class="flex items-center gap-2"><i class="fa-solid fa-clock text-yellow-400 text-[10px]"></i> ตัดยอดส่งของทุกวัน 13:00 น.</span>
+        <span class="text-neutral-600">✦</span>
+        <span class="flex items-center gap-2"><i class="fa-solid fa-truck-fast text-emerald-400 text-[10px]"></i> ฟรีค่าจัดส่งทุกออเดอร์ ไม่มีค่าจัดส่ง</span>
+        <span class="text-neutral-600">✦</span>
+        <span class="flex items-center gap-2"><i class="fa-solid fa-star text-yellow-400 text-[10px]"></i> PREMIUM HEAVYWEIGHT 260 GSM</span>
+        <span class="text-neutral-600">✦</span>
+      </div>
+      <div class="luxury-marquee-content text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase" aria-hidden="true">
+        <span class="flex items-center gap-2"><i class="fa-solid fa-crown text-yellow-400 text-[10px]"></i> VORTEX ATELIER • AUTUMN / WINTER 2026</span>
+        <span class="text-neutral-600">✦</span>
+        <span class="flex items-center gap-2"><i class="fa-solid fa-gem text-yellow-400 text-[10px]"></i> LIMITED EDITION STREETWEAR</span>
+        <span class="text-neutral-600">✦</span>
+        <span class="flex items-center gap-2"><i class="fa-solid fa-clock text-yellow-400 text-[10px]"></i> ตัดยอดส่งของทุกวัน 13:00 น.</span>
+        <span class="text-neutral-600">✦</span>
+        <span class="flex items-center gap-2"><i class="fa-solid fa-truck-fast text-emerald-400 text-[10px]"></i> ฟรีค่าจัดส่งทุกออเดอร์ ไม่มีค่าจัดส่ง</span>
+        <span class="text-neutral-600">✦</span>
+        <span class="flex items-center gap-2"><i class="fa-solid fa-star text-yellow-400 text-[10px]"></i> PREMIUM HEAVYWEIGHT 260 GSM</span>
+        <span class="text-neutral-600">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPECIAL ANNOUNCEMENT BANNER: ตัดรอบส่ง 13:00 น. & ไม่มีค่าจัดส่ง -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-1">
+    <div class="bg-gradient-to-r from-black via-neutral-900 to-black text-white p-3.5 sm:p-4 rounded-2xl border-2 border-yellow-400/40 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-yellow-400 text-black flex items-center justify-center text-lg font-black shrink-0 shadow">
+          <i class="fa-solid fa-bullhorn"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="bg-yellow-400 text-black text-[10px] font-black px-2 py-0.5 rounded tracking-wider uppercase">ประกาศหน้าร้าน</span>
+            <span class="text-xs font-black text-white sm:text-sm tracking-wide">
+              ⚡ ตัดยอดส่งของทุกวันเวลา <span class="text-yellow-400 underline decoration-yellow-400 font-black">13:00 น.</span> (ส่งด่วนภายในวัน)
+            </span>
+          </div>
+          <p class="text-[11px] text-gray-300 mt-0.5">
+            สั่งซื้อและชำระเงินก่อน 13:00 น. สินค้าจะถูกแพ็คและจัดส่งออกให้ภายในวันทันที ไม่มีวันหยุด
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <div class="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-extrabold flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-check text-emerald-400"></i>
+          <span>ฟรีค่าจัดส่ง ฿0 ทุกออเดอร์</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. HERO PROMOTION BANNER CAROUSEL -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+    <div class="relative h-[320px] sm:h-[380px] md:h-[440px] lg:h-[480px] rounded-2xl overflow-hidden shadow-md bg-neutral-900">
+      
+      <!-- Slide 1 -->
+      <div class="carousel-slide active">
+        <img src="images/hero_banner_1.jpg" alt="VORTEX Monochrome Essentials" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-r from-black/95 via-black/75 to-black/25 flex flex-col justify-center px-6 sm:px-12 md:px-16 text-white pb-6">
+          <span class="inline-block bg-white text-black font-extrabold text-[10px] sm:text-xs px-2.5 py-1 rounded w-fit uppercase tracking-widest mb-2.5 shadow-sm">✦ ATELIER DROP 2026</span>
+          <h1 class="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight max-w-xl text-white drop-shadow-md">
+            THE MONOCHROME ESSENTIALS
+          </h1>
+          <p class="text-xs sm:text-sm text-gray-200 mt-2 max-w-md hidden sm:block drop-shadow">
+            นิยามใหม่ของความมินิมอลและสตรีทแฟชั่น VORTEX เสื้อยืด 260 GSM และกางเกงคาร์โก้รุ่นซิกเนเจอร์พร้อมส่งทันที
+          </p>
+          <div class="mt-3.5 sm:mt-5 flex items-center gap-3">
+            <a href="#productsSection" class="px-6 py-2.5 bg-white text-black hover:bg-neutral-200 text-xs sm:text-sm font-extrabold rounded-xl transition shadow-xl inline-flex items-center gap-2 border border-white">
+              <span>ช้อปคอลเลกชันนี้</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="carousel-slide">
+        <img src="images/hero_banner_2.jpg" alt="VORTEX Flash Sale" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-r from-black/95 via-black/75 to-black/25 flex flex-col justify-center px-6 sm:px-12 md:px-16 text-white pb-6">
+          <span class="inline-block bg-red-600 text-white font-extrabold text-[10px] sm:text-xs px-2.5 py-1 rounded w-fit uppercase tracking-widest mb-2.5 shadow-sm">✦ FLASH SALE EXTRA</span>
+          <h2 class="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight max-w-xl text-white drop-shadow-md">
+            UP TO 50% OFF MID-SEASON
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-200 mt-2 max-w-md hidden sm:block drop-shadow">
+            ลดราคาพิเศษสินค้าเสื้อฮู้ดดี้ เสื้อเชิ้ต Cuban และแจ็กเก็ต มีจำนวนจำกัดในแต่ละรอบเวลา
+          </p>
+          <div class="mt-3.5 sm:mt-5 flex items-center gap-3">
+            <a href="#flashSaleSection" class="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-extrabold rounded-xl transition shadow-xl inline-flex items-center gap-2 border border-red-500">
+              <span>ดูสินค้า Flash Sale</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="carousel-slide">
+        <img src="images/hero_banner_3.jpg" alt="VORTEX Free Shipping" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-r from-black/95 via-black/80 to-black/30 flex flex-col justify-center px-6 sm:px-12 md:px-16 text-white pb-6">
+          <span class="inline-block bg-emerald-500 text-white font-extrabold text-[10px] sm:text-xs px-2.5 py-1 rounded w-fit uppercase tracking-widest mb-2.5 shadow-sm">✦ EVERYDAY FREE SHIPPING</span>
+          <h2 class="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight max-w-xl text-white drop-shadow-md">
+            จัดส่งฟรีทั่วไทย ไม่มีขั้นต่ำ
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-200 mt-2 max-w-md hidden sm:block drop-shadow">
+            สั่งซื้อสินค้าชิ้นใดก็ได้ในร้าน จัดส่งฟรี ฿0 ทุกออเดอร์ทันที รับประกันจัดส่งรวดเร็วถึงไวใน 1-2 วันทำการ
+          </p>
+          <div class="mt-3.5 sm:mt-5 flex items-center gap-3">
+            <a href="#productsSection" class="px-6 py-2.5 bg-white text-black hover:bg-neutral-200 text-xs sm:text-sm font-extrabold rounded-xl transition shadow-xl inline-flex items-center gap-2 border border-white">
+              <span>เลือกซื้อสินค้าทันที</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <button onclick="prevBanner()" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 hover:bg-black text-white flex items-center justify-center backdrop-blur-xs transition z-20">
+        <i class="fa-solid fa-chevron-left text-sm"></i>
+      </button>
+      <button onclick="nextBanner()" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 hover:bg-black text-white flex items-center justify-center backdrop-blur-xs transition z-20">
+        <i class="fa-solid fa-chevron-right text-sm"></i>
+      </button>
+
+      <!-- Dots Indicators -->
+      <div id="carouselDots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20"></div>
+
+    </div>
+  </section>
+
+  <!-- 4. SERVICE TRUST BADGES (SHOPEE MALL STYLE) -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 reveal-on-scroll">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white/90 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-neutral-200/90 shadow-sm">
+      
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-black text-lg shrink-0">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-gray-900">ของแท้ 100%</h4>
+          <p class="text-[11px] text-gray-500">การันตีโดยแบรนด์ VORTEX</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-black text-lg shrink-0">
+          <i class="fa-solid fa-arrow-rotate-left"></i>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-gray-900">คืนสินค้าได้ใน 7 วัน</h4>
+          <p class="text-[11px] text-gray-500">เปลี่ยนไซส์ฟรี หากใส่ไม่พอดี</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-black text-lg shrink-0">
+          <i class="fa-solid fa-truck-fast"></i>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-gray-900">จัดส่งฟรีทั่วประเทศ</h4>
+          <p class="text-[11px] text-gray-500">เมื่อสั่งซื้อขั้นต่ำ ฿990.-</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-black text-lg shrink-0">
+          <i class="fa-solid fa-qrcode"></i>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-gray-900">ชำระเงินปลอดภัย</h4>
+          <p class="text-[11px] text-gray-500">PromptPay QR, บัตร, COD</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. CATEGORIES SECTION -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 reveal-on-scroll">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h2 class="text-base sm:text-lg font-black tracking-tight text-gray-900 uppercase">หมวดหมู่สินค้า (CATEGORIES)</h2>
+        <p class="text-xs text-gray-500">เลือกประเภทเสื้อผ้าสตรีทแวร์ที่คุณสนใจ</p>
+      </div>
+      <button onclick="resetFilters()" class="text-xs font-semibold text-black hover:underline">
+        ดูทั้งหมด <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+    
+    <div id="categoriesContainer" class="flex gap-2.5 overflow-x-auto pb-2 scrollbar-none sm:grid sm:grid-cols-5 lg:grid-cols-9">
+      <!-- Generated by app.js -->
+    </div>
+  </section>
+
+  <!-- 8. MAIN PRODUCT CATALOG & FILTERS -->
+  <section id="productsSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 reveal-on-scroll">
+    
+    <div class="bg-white p-3 sm:p-4 rounded-xl border border-neutral-200 mb-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <span class="text-gray-500 font-medium mr-1 hidden sm:inline">เรียงตาม:</span>
+        <button data-sort="popular" class="sort-tab-btn active px-4 py-2 rounded-lg font-bold bg-black text-white transition shadow-sm">
+          ยอดนิยม
+        </button>
+        <button data-sort="latest" class="sort-tab-btn px-4 py-2 rounded-lg font-semibold bg-white text-gray-700 border border-gray-200 hover:border-black transition">
+          สินค้าใหม่
+        </button>
+        <button data-sort="price-asc" class="sort-tab-btn px-4 py-2 rounded-lg font-semibold bg-white text-gray-700 border border-gray-200 hover:border-black transition">
+          ราคา: ต่ำไปสูง
+        </button>
+        <button data-sort="price-desc" class="sort-tab-btn px-4 py-2 rounded-lg font-semibold bg-white text-gray-700 border border-gray-200 hover:border-black transition">
+          ราคา: สูงไปต่ำ
+        </button>
+      </div>
+
+      <div class="flex items-center gap-3 text-xs text-gray-500 w-full md:w-auto justify-between md:justify-end">
+        <span id="productCountText" class="font-medium">กำลังโหลดสินค้า...</span>
+        <button onclick="resetFilters()" class="text-neutral-900 hover:underline font-semibold flex items-center gap-1">
+          <i class="fa-solid fa-arrows-rotate text-[10px]"></i> รีเซ็ต
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Products Responsive Grid -->
+    <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+      <!-- Generated by app.js -->
+    </div>
+
+  </section>
+
+  <!-- 8.5 CUSTOMER REVIEWS & COMMUNITY SECTION -->
+  <section id="customerReviewsSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 reveal-on-scroll">
+    
+    <!-- Section Header & Rating Summary Card -->
+    <div class="bg-gradient-to-r from-neutral-900 via-black to-neutral-900 rounded-3xl p-6 sm:p-8 text-white mb-8 shadow-xl relative overflow-hidden">
+      <!-- Background subtle pattern -->
+      <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute left-1/2 top-0 -translate-x-1/2 w-96 h-20 bg-yellow-400/10 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold tracking-wider uppercase backdrop-blur-xs mb-3">
+            <i class="fa-solid fa-star text-yellow-400"></i>
+            <span>VORTEX COMMUNITY REVIEWS</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white">
+            เสียงตอบรับและความประทับใจจากลูกค้าจริง
+          </h2>
+          <p class="text-xs sm:text-sm text-neutral-300 mt-1.5 max-w-xl leading-relaxed">
+            สินค้าแท้ตรงปก คัตติ้งเนี้ยบ เนื้อผ้าคุณภาพสตรีทแวร์พรีเมียม และการบริการที่ลูกค้าไว้วางใจกลับมาสั่งซ้ำต่อเนื่อง
+          </p>
+        </div>
+
+        <!-- Rating Highlight & Action Button -->
+        <div class="flex flex-wrap items-center gap-4 sm:gap-6 bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/10 shrink-0">
+          <div class="text-center sm:text-left pr-4 border-r border-white/15">
+            <div class="flex items-baseline gap-1.5">
+              <span id="reviewStatsAvgRating" class="text-3xl sm:text-4xl font-black text-white font-sans">5.0</span>
+              <span class="text-xs text-neutral-400 font-bold">/ 5.0</span>
+            </div>
+            <div id="reviewStatsStars" class="flex items-center gap-1 my-1 text-yellow-400 text-xs">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <div id="reviewStatsCount" class="text-[11px] text-neutral-300 font-medium">4 รีวิวจากลูกค้า</div>
+          </div>
+
+          <!-- Add Review CTA Button -->
+          <div>
+            <button 
+              type="button" 
+              onclick="openReviewModal()" 
+              class="w-full sm:w-auto px-5 py-3 rounded-xl bg-white hover:bg-neutral-100 text-black font-extrabold text-xs sm:text-sm transition-all duration-200 shadow-md hover:shadow-xl active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <i class="fa-solid fa-pen-to-square text-sm"></i>
+              <span>เขียนรีวิวของคุณ</span>
+            </button>
+            <div class="text-[10px] text-center text-neutral-400 mt-1.5 flex items-center justify-center gap-1">
+              <i class="fa-solid fa-camera text-[9px]"></i> แนบรูปภาพได้ฟรี
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Filter Tabs -->
+    <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+      <div class="flex items-center gap-2">
+        <button 
+          type="button" 
+          onclick="filterReviews('all')" 
+          data-filter="all" 
+          class="review-filter-btn px-4 py-1.5 rounded-full text-xs font-bold bg-black text-white shadow-xs transition"
+        >
+          ทั้งหมด
+        </button>
+        <button 
+          type="button" 
+          onclick="filterReviews('photo')" 
+          data-filter="photo" 
+          class="review-filter-btn px-4 py-1.5 rounded-full text-xs font-bold bg-neutral-100 hover:bg-neutral-200 text-gray-700 transition"
+        >
+          <i class="fa-solid fa-image text-[10px]"></i> มีรูปภาพ (With Photos)
+        </button>
+        <button 
+          type="button" 
+          onclick="filterReviews('5star')" 
+          data-filter="5star" 
+          class="review-filter-btn px-4 py-1.5 rounded-full text-xs font-bold bg-neutral-100 hover:bg-neutral-200 text-gray-700 transition"
+        >
+          <i class="fa-solid fa-star text-yellow-400 text-[10px]"></i> 5 ดาวเท่านั้น
+        </button>
+      </div>
+
+      <button 
+        type="button" 
+        onclick="openReviewModal()" 
+        class="text-xs font-bold text-black hover:text-neutral-700 underline underline-offset-4 flex items-center gap-1.5 cursor-pointer"
+      >
+        <i class="fa-solid fa-circle-plus"></i> แบ่งปันความประทับใจของคุณ
+      </button>
+    </div>
+
+    <!-- Reviews Grid (Rendered by app.js) -->
+    <div id="reviewsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-8">
+      <!-- Reviews Cards dynamically inserted here -->
+    </div>
+
+    <!-- Thank You Card Banner (ตามสไตล์รูปภาพรีวิว VORTEX) -->
+    <div class="rounded-2xl border border-neutral-200 bg-linear-to-b from-neutral-50 to-white p-6 sm:p-8 text-center shadow-xs">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-black text-white mb-3 shadow-sm">
+        <i class="fa-solid fa-heart text-lg text-red-400"></i>
+      </div>
+      <h3 class="text-base sm:text-lg font-black text-gray-900 tracking-tight">
+        ขอบคุณที่มาอุดหนุนร้านของเรา VORTEX
+      </h3>
+      <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">
+        Thank you for shopping at VORTEX. ทุกคำติชมและรีวิวคือกำลังใจสำคัญของเรา
+      </p>
+      <div class="mt-4 flex items-center justify-center gap-3">
+        <button onclick="openReviewModal()" class="px-4 py-2 bg-black hover:bg-neutral-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+          <i class="fa-solid fa-star text-yellow-400 text-[10px]"></i> ให้คะแนนร้านค้า
+        </button>
+        <a href="https://line.me/R/ti/p/@152zpxzv" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-[#06C755] border border-emerald-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+          <i class="fa-brands fa-line text-sm"></i> ติดต่อแอดมิน LINE
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 9. FOOTER -->
+  <footer class="bg-white border-t border-neutral-200 mt-12 pt-12 pb-20 sm:pb-12 text-gray-600">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-neutral-200">
+        
+        <!-- Col 1: About -->
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-white border border-neutral-200 p-0.5 flex items-center justify-center overflow-hidden shadow-xs">
+              <img src="images/vortex_logo.png" alt="VORTEX" class="w-full h-full object-contain" />
+            </div>
+            <span class="font-black text-black tracking-tight text-lg">VORTEX</span>
+          </div>
+          <p class="text-xs text-gray-500 leading-relaxed">
+            แบรนด์เสื้อผ้าสตรีทแวร์สไตล์มินิมอล โทนสีขาวดำ ผลิตจากวัตถุดิบคุณภาพพรีเมียม คัตติ้งประณีต ตอบโจทย์ทุกไลฟ์สไตล์คนรุ่นใหม่
+          </p>
+          <div class="flex items-center gap-3 mt-4 text-black text-base">
+            <a href="https://www.instagram.com/vortex_shop59?stkn=bzBidjV3NHo0OTE2&utm_source=qr" target="_blank" rel="noopener noreferrer" title="Instagram @vortex_shop59" class="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center hover:bg-black hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://line.me/R/ti/p/@152zpxzv" target="_blank" rel="noopener noreferrer" title="LINE Official @152zpxzv" class="w-8 h-8 rounded-full bg-emerald-50 text-[#06C755] flex items-center justify-center hover:bg-[#06C755] hover:text-white transition shadow-xs"><i class="fa-brands fa-line text-lg"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Customer Service -->
+        <div>
+          <h4 class="text-xs font-bold text-black uppercase tracking-wider mb-4">บริการลูกค้า</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="#customerReviewsSection" class="hover:text-black transition flex items-center gap-1.5"><i class="fa-solid fa-star text-yellow-400 text-[10px]"></i> รีวิวจากลูกค้าจริง (Reviews)</a></li>
+            <li><button onclick="openReviewModal()" class="hover:text-black transition flex items-center gap-1.5 text-left"><i class="fa-solid fa-pen-to-square text-neutral-400 text-[10px]"></i> เขียนรีวิวสินค้า</button></li>
+            <li><button onclick="openMyOrdersModal()" class="hover:text-black transition">ตรวจสอบสถานะพัสดุ</button></li>
+            <li><a href="login.html" class="hover:text-black transition">เข้าสู่ระบบสมาชิก</a></li>
+            <li><a href="login.html?tab=register" class="hover:text-black transition">สมัครสมาชิกใหม่</a></li>
+            <li>
+              <a href="https://line.me/R/ti/p/@152zpxzv" target="_blank" rel="noopener noreferrer" class="text-[#06C755] hover:text-[#05a847] font-semibold flex items-center gap-1.5 transition">
+                <i class="fa-brands fa-line text-sm"></i>
+                <span>LINE: @152zpxzv</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Payment & Logistics -->
+        <div>
+          <h4 class="text-xs font-bold text-black uppercase tracking-wider mb-4">วิธีการชำระเงิน</h4>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="p-2.5 border border-gray-200 rounded text-center text-[11px] font-bold bg-neutral-50 flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-qrcode text-black"></i> PromptPay
+            </div>
+            <div class="p-2.5 border border-gray-200 rounded text-center text-[11px] font-bold bg-neutral-50 flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-building-columns text-black"></i> โอนผ่านบัญชี
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 4: Shop Guarantee -->
+        <div>
+          <h4 class="text-xs font-bold text-black uppercase tracking-wider mb-4">VORTEX MALL GUARANTEE</h4>
+          <p class="text-xs text-gray-500 leading-relaxed mb-3">
+            มั่นใจได้ 100% กับสินค้าแท้จากแบรนด์ มีการรับประกันความพึงพอใจและจัดส่งรวดเร็วผ่าน SPX Express ทั่วประเทศ
+          </p>
+          <div class="p-3 bg-neutral-50 rounded-lg border border-neutral-200 text-[11px] flex items-center gap-2">
+            <i class="fa-solid fa-lock text-black text-sm"></i>
+            <span>ระบบชำระเงินเข้ารหัสความปลอดภัย 256-bit SSL</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-3">
+        <p>© 2026 VORTEX ATELIER Co., Ltd. สงวนลิขสิทธิ์ทั้งหมด</p>
+        <div class="flex items-center gap-4">
+          <a href="#privacy" class="hover:text-black">นโยบายความเป็นส่วนตัว</a>
+          <span>•</span>
+          <a href="#terms" class="hover:text-black">ข้อกำหนดและเงื่อนไข</a>
+          <span>•</span>
+          <a href="admin-login.html" class="hover:text-black flex items-center gap-1"><i class="fa-solid fa-shield-halved"></i> ระบบหลังบ้าน</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       MODALS & DRAWERS
+       ========================================================================== -->
+
+  <!-- 10. PRODUCT DETAIL MODAL -->
+  <div id="productDetailModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content-box bg-white w-full max-w-4xl max-h-[92vh] rounded-2xl shadow-2xl overflow-y-auto relative border border-neutral-200">
+      
+      <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-neutral-100 hover:bg-black hover:text-white text-gray-500 flex items-center justify-center transition z-20">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 p-4 sm:p-8">
+        
+        <!-- Left: Image Gallery -->
+        <div class="md:col-span-5 flex flex-col gap-3">
+          <div class="relative pb-[115%] rounded-xl overflow-hidden bg-neutral-100 border border-neutral-200 shadow-xs">
+            <img id="modalMainImage" src="" alt="Product Detail" class="absolute inset-0 w-full h-full object-cover transition-all duration-300" />
+            <div class="absolute top-3 left-3">
+              <span class="badge-mall shadow"><i class="fa-solid fa-certificate text-[9px]"></i> VORTEX MALL</span>
+            </div>
+          </div>
+          <div id="modalThumbnails" class="flex gap-2 overflow-x-auto pb-1"></div>
+        </div>
+
+        <!-- Right: Info -->
+        <div class="md:col-span-7 flex flex-col justify-between">
+          <div>
+            <span class="bg-black text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">สินค้าพร้อมส่ง</span>
+            <h2 id="modalProductTitle" class="text-lg sm:text-xl font-black text-gray-900 leading-snug mt-1"></h2>
+            <p id="modalProductSubtitle" class="text-xs text-gray-500 mt-0.5"></p>
+
+            <!-- Price Box -->
+            <div class="bg-neutral-50 p-3.5 rounded-xl border border-neutral-200 flex items-center gap-3 my-3">
+              <span id="modalProductPrice" class="text-2xl sm:text-3xl font-black text-black font-sans"></span>
+              <span id="modalProductOriginalPrice" class="text-sm text-gray-400 line-through"></span>
+              <span id="modalProductDiscount" class="bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded"></span>
+            </div>
+
+            <!-- Size Variation -->
+            <div class="mt-4">
+              <label class="block text-xs font-bold text-gray-700 mb-1.5">ตัวเลือกไซส์ (SIZE):</label>
+              <div id="modalSizesContainer" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- Quantity Stepper -->
+            <div class="mt-4 flex items-center gap-4">
+              <label class="text-xs font-bold text-gray-700">จำนวน:</label>
+              <div class="flex items-center rounded border border-neutral-300 overflow-hidden bg-white">
+                <button onclick="stepModalQty(-1)" class="qty-btn qty-step-btn text-xs">-</button>
+                <input id="modalDetailQty" type="text" value="1" readonly class="qty-input" />
+                <button onclick="stepModalQty(1)" class="qty-btn qty-step-btn text-xs">+</button>
+              </div>
+              <span class="text-xs text-gray-400">คงเหลือในสต็อก: <strong id="modalProductStock" class="text-gray-700">0</strong></span>
+            </div>
+          </div>
+
+          <!-- Dual Buttons (Require Auth check) -->
+          <div class="mt-6 pt-4 border-t border-neutral-200">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button id="modalAddCartBtn" onclick="handleAddDetailToCart()" class="w-full py-3.5 px-4 bg-white hover:bg-neutral-100 active:scale-[0.98] text-black border-2 border-black font-extrabold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2.5 transition-all shadow-sm cursor-pointer">
+                <i class="fa-solid fa-cart-plus text-base text-black"></i>
+                <span class="font-extrabold tracking-wide">เพิ่มไปยังรถเข็น</span>
+              </button>
+              <button id="modalBuyNowBtn" onclick="handleBuyNow()" class="w-full py-3.5 px-4 bg-black hover:bg-neutral-800 active:scale-[0.98] text-white font-extrabold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2.5 transition-all shadow-md cursor-pointer">
+                <i class="fa-solid fa-bolt text-base text-yellow-400"></i>
+                <span class="font-extrabold tracking-wide">ซื้อสินค้าตอนนี้</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Description -->
+      <div class="border-t border-neutral-200 p-4 sm:p-8 bg-neutral-50/50">
+        <h3 class="text-sm font-bold text-black uppercase tracking-wider mb-2">รายละเอียดและสเปกสินค้า</h3>
+        <div id="modalProductDescription" class="text-xs text-gray-600 leading-relaxed font-sans bg-white p-4 rounded-xl border border-neutral-200"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 11. CART DRAWER -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 pointer-events-none">
+    <div id="cartBackdrop" class="modal-backdrop absolute inset-0 pointer-events-auto"></div>
+
+    <div class="drawer-content absolute top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col pointer-events-auto z-10">
+      
+      <div class="p-4 border-b border-neutral-200 flex items-center justify-between bg-white">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-bag-shopping text-black text-lg"></i>
+          <h3 class="text-base font-black text-gray-900 uppercase">ตะกร้าสินค้า</h3>
+        </div>
+        <button id="closeCartBtn" class="w-8 h-8 rounded-full bg-neutral-100 hover:bg-black hover:text-white text-gray-500 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="px-4 py-2.5 bg-neutral-50 border-b border-neutral-200 flex items-center justify-between text-xs text-gray-700">
+        <label class="flex items-center gap-2 cursor-pointer font-medium">
+          <input type="checkbox" id="selectAllCartCheckbox" onchange="toggleSelectAllCart(this.checked)" class="custom-checkbox" />
+          <span>เลือกทั้งหมด</span>
+        </label>
+        <span class="text-[11px] text-emerald-600 font-extrabold flex items-center gap-1">
+          <i class="fa-solid fa-truck-fast"></i> ฟรีค่าจัดส่งทุกออเดอร์
+        </span>
+      </div>
+
+      <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 divide-y divide-neutral-100"></div>
+
+      <!-- Voucher -->
+      <div class="p-4 bg-neutral-50 border-t border-neutral-200">
+        <div class="flex items-center gap-2">
+          <div class="relative flex-1">
+            <i class="fa-solid fa-ticket absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+            <input 
+              type="text" 
+              id="cartVoucherInput" 
+              placeholder="โค้ดส่วนลด (ถ้ามี)" 
+              class="w-full pl-8 pr-3 py-2 text-xs uppercase font-mono rounded border border-neutral-300 outline-none focus:border-black"
+            />
+          </div>
+          <button onclick="handleApplyVoucher()" class="px-4 py-2 bg-black hover:bg-neutral-800 text-white text-xs font-bold rounded transition">
+            ใช้โค้ด
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="p-4 border-t border-neutral-200 bg-white space-y-2">
+        <div class="flex justify-between text-xs text-gray-500">
+          <span>ยอดรวมสินค้า</span>
+          <span id="cartSubtotal" class="font-sans font-bold text-gray-800">฿0</span>
+        </div>
+        <div class="flex justify-between text-xs text-green-600">
+          <span>ส่วนลด</span>
+          <span id="cartDiscount" class="font-sans font-bold">-฿0</span>
+        </div>
+        <div class="flex justify-between text-xs text-gray-500">
+          <span>ค่าจัดส่ง</span>
+          <span id="cartShipping" class="font-sans font-bold text-gray-800">฿0</span>
+        </div>
+        <div class="flex justify-between text-sm font-black text-black pt-2 border-t border-neutral-100">
+          <span>ยอดรวมสุทธิ</span>
+          <span id="cartTotal" class="font-sans text-base">฿0</span>
+        </div>
+
+        <button 
+          id="cartCheckoutBtn" 
+          onclick="openCheckout()" 
+          disabled 
+          class="w-full mt-2 py-3 bg-black hover:bg-neutral-800 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-black text-xs sm:text-sm rounded-xl uppercase tracking-wider transition shadow-lg flex items-center justify-center gap-2"
+        >
+          สั่งซื้อสินค้า
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 12. CHECKOUT MODAL -->
+  <div id="checkoutModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content-box bg-white w-full max-w-3xl max-h-[94vh] rounded-2xl shadow-2xl overflow-y-auto relative border border-neutral-200">
+      
+      <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-black hover:text-white text-gray-500 flex items-center justify-center transition z-10">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <form onsubmit="submitCheckoutOrder(event)" class="p-5 sm:p-8 space-y-6">
+        
+        <div class="flex items-center gap-2 pb-3 border-b border-neutral-200">
+          <div class="w-8 h-8 bg-black text-white rounded-lg flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-credit-card"></i>
+          </div>
+          <div>
+            <h2 class="text-base font-black text-gray-900 uppercase">ยืนยันคำสั่งซื้อและการจัดส่ง</h2>
+            <p class="text-xs text-gray-500">ระบบเชื่อมโยงกับบัญชีผู้ใช้ของคุณ</p>
+          </div>
+        </div>
+
+        <!-- 1. Address -->
+        <div class="bg-neutral-50 p-4 rounded-xl border border-neutral-200">
+          <h3 class="text-xs font-bold text-gray-800 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-location-dot text-black"></i> 1. ที่อยู่สำหรับจัดส่ง
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-bold text-gray-600 mb-1">ชื่อ-นามสกุล ผู้รับ *</label>
+              <input type="text" id="orderCustName" required placeholder="ชื่อ-นามสกุล" class="w-full px-3 py-2 text-xs rounded border border-gray-300 outline-none focus:border-black bg-white" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-gray-600 mb-1">หมายเลขโทรศัพท์ *</label>
+              <input type="tel" id="orderCustPhone" required placeholder="08x-xxx-xxxx" class="w-full px-3 py-2 text-xs rounded border border-gray-300 outline-none focus:border-black bg-white" />
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-[11px] font-bold text-gray-600 mb-1">ที่อยู่จัดส่ง *</label>
+              <input type="text" id="orderCustAddress" required placeholder="บ้านเลขที่, ซอย, ถนน, ตำบล, อำเภอ" class="w-full px-3 py-2 text-xs rounded border border-gray-300 outline-none focus:border-black bg-white" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-gray-600 mb-1">จังหวัด *</label>
+              <input type="text" id="orderCustProvince" required placeholder="เช่น กรุงเทพมหานคร" class="w-full px-3 py-2 text-xs rounded border border-gray-300 outline-none focus:border-black bg-white" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-gray-600 mb-1">รหัสไปรษณีย์ *</label>
+              <input type="text" id="orderCustPostal" required placeholder="10110" class="w-full px-3 py-2 text-xs rounded border border-gray-300 outline-none focus:border-black bg-white" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Payment Method -->
+        <div class="bg-neutral-50 p-4 rounded-xl border border-neutral-200">
+          <h3 class="text-xs font-bold text-gray-800 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-wallet text-black"></i> 2. วิธีการชำระเงิน
+          </h3>
+
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <button type="button" onclick="selectPaymentMethod('promptpay')" id="payMethod_promptpay" class="p-3 border-2 border-black bg-white rounded-lg text-left transition flex flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-black">QR PromptPay</span>
+                <i class="fa-solid fa-qrcode text-black text-sm"></i>
+              </div>
+              <span class="text-[10px] text-gray-500 mt-2">สแกนจ่ายได้ทุกแอปธนาคาร</span>
+            </button>
+
+            <button type="button" onclick="selectPaymentMethod('bank')" id="payMethod_bank" class="p-3 border border-neutral-300 bg-white rounded-lg text-left transition flex flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-black">โอนผ่านบัญชีธนาคาร</span>
+                <i class="fa-solid fa-building-columns text-black text-sm"></i>
+              </div>
+              <span class="text-[10px] text-gray-500 mt-2">โอนเงินแล้วแจ้งสลิป</span>
+            </button>
+          </div>
+
+          <!-- PromptPay QR Container -->
+          <div id="payDetails_promptpay" class="p-4 bg-white rounded-lg border border-neutral-200 text-center">
+            <div class="inline-block p-4 bg-white border-2 border-black rounded-2xl shadow-md mb-2">
+              <div class="text-[11px] font-extrabold tracking-widest text-black mb-2 flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-qrcode text-black"></i> PROMPTPAY THAILAND
+              </div>
+              <div class="bg-neutral-50 p-2.5 rounded-xl border border-neutral-200 mb-2.5">
+                <img src="images/promptpay_qr.png" alt="PromptPay QR Code" class="w-48 h-48 mx-auto object-contain rounded-lg shadow-xs" />
+              </div>
+              <div class="text-xs font-bold text-gray-800">
+                ชื่อบัญชี: <span class="text-black font-extrabold">นาย ธวัลวัฒน์ จันทร์สิงห์</span>
+              </div>
+              <div class="text-xs text-gray-600 mt-0.5">
+                พร้อมเพย์ / ธนาคารกรุงไทย
+              </div>
+              <div class="text-[13px] font-bold text-gray-800 mt-2 pt-2 border-t border-neutral-200">
+                ยอดชำระ: <span id="qrTotalAmount" class="font-sans text-black font-black text-base">฿0</span>
+              </div>
+            </div>
+            <p class="text-[11px] text-gray-500">เปิดแอปธนาคารแล้วสแกน QR Code นี้เพื่อชำระเงินได้ทันที</p>
+          </div>
+
+          <!-- Bank Transfer Details -->
+          <div id="payDetails_bank" class="hidden p-4 bg-white rounded-lg border border-neutral-200 space-y-3">
+            <div class="text-center mb-1">
+              <i class="fa-solid fa-building-columns text-2xl text-black mb-1"></i>
+              <p class="text-xs font-bold text-gray-800">โอนเงินผ่านบัญชีธนาคาร</p>
+              <p class="text-[11px] text-gray-500">โอนเงินเข้าบัญชี หรือสแกน QR Code เพื่อชำระเงิน</p>
+            </div>
+
+            <!-- Krungthai Bank Card -->
+            <div class="bg-sky-50/80 p-4 rounded-xl border border-sky-200 shadow-xs">
+              <div class="flex items-start justify-between gap-3">
+                <div class="space-y-1.5 flex-1">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sky-500 inline-block"></span>
+                    <span class="text-xs font-bold text-sky-900">ธนาคารกรุงไทย (Krungthai Bank)</span>
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">เลขที่บัญชี</div>
+                    <div class="flex items-center gap-2 pt-0.5">
+                      <span class="text-base sm:text-lg font-black text-black tracking-wider font-mono">618-0-36343-9</span>
+                      <button type="button" onclick="navigator.clipboard.writeText('6180363439'); showToast('คัดลอกเลขบัญชี 6180363439 เรียบร้อยแล้ว', 'success');" class="px-2.5 py-1 bg-white hover:bg-black hover:text-white border border-neutral-300 rounded text-[10px] font-bold text-gray-700 transition shadow-xs flex items-center gap-1">
+                        <i class="fa-regular fa-copy text-[11px]"></i> คัดลอก
+                      </button>
+                    </div>
+                  </div>
+                  <div class="text-xs text-gray-800 pt-1">
+                    <span class="text-gray-500 text-[11px]">ชื่อบัญชี:</span> <strong class="text-black font-extrabold">นาย ธวัลวัฒน์ จันทร์สิงห์</strong>
+                  </div>
+                </div>
+                <div class="w-11 h-11 rounded-xl bg-sky-500 text-white font-black text-xs flex items-center justify-center shadow-xs shrink-0">
+                  KTB
+                </div>
+              </div>
+            </div>
+
+            <!-- QR Code Box for Bank Transfer -->
+            <div class="p-3 bg-neutral-50 rounded-xl border border-neutral-200 text-center">
+              <p class="text-[11px] font-bold text-gray-700 mb-2">หรือสแกนผ่าน QR Code:</p>
+              <img src="images/promptpay_qr.png" alt="QR Code กรุงไทย" class="w-36 h-36 mx-auto object-contain rounded-lg border border-neutral-200 bg-white p-1 shadow-xs" />
+              <p class="text-[10px] text-gray-500 mt-1.5">นาย ธวัลวัฒน์ จันทร์สิงห์ • ธนาคารกรุงไทย</p>
+            </div>
+
+            <p class="text-[10px] text-gray-500 text-center pt-1">
+              หลังโอนเงินกรุณาแนบสลิปผ่านระบบ หรือส่งสลิปผ่าน LINE: 
+              <a href="https://line.me/R/ti/p/@152zpxzv" target="_blank" rel="noopener noreferrer" class="text-[#06C755] font-bold underline hover:text-[#05a847] inline-flex items-center gap-1">
+                <i class="fa-brands fa-line text-xs"></i> @152zpxzv
+              </a>
+            </p>
+          </div>
+
+          <!-- Slip Upload Section (ปุ่มแนบสลิป) -->
+          <div class="mt-4 pt-4 border-t border-neutral-200">
+            <div class="flex items-center justify-between mb-2">
+              <label class="text-xs font-bold text-gray-800 flex items-center gap-1.5">
+                <i class="fa-solid fa-receipt text-black"></i> แนบสลิปการโอนเงิน (Payment Slip)
+              </label>
+              <span class="text-[10px] text-emerald-600 font-bold">รองรับภาพจากกล้องมือถือทุกขนาด</span>
+            </div>
+
+            <input type="file" id="orderSlipInput" accept="image/*" class="hidden" onchange="handleSlipFileChange(event)" />
+
+            <!-- Upload Placeholder Box -->
+            <label for="orderSlipInput" id="slipUploadPlaceholder" class="cursor-pointer border-2 border-dashed border-neutral-300 hover:border-black rounded-xl p-4 flex flex-col items-center justify-center text-center bg-white hover:bg-neutral-50 transition group">
+              <div class="w-10 h-10 rounded-full bg-neutral-100 group-hover:bg-black group-hover:text-white text-gray-600 flex items-center justify-center mb-1.5 transition">
+                <i class="fa-solid fa-cloud-arrow-up text-base"></i>
+              </div>
+              <span class="text-xs font-bold text-gray-800 group-hover:text-black">คลิกเพื่อแนบรูปภาพสลิปโอนเงิน</span>
+              <span class="text-[10px] text-gray-400 mt-0.5">รองรับภาพถ่ายจากกล้องมือถือทุกขนาด ระบบปรับขนาดให้อัตโนมัติ</span>
+            </label>
+
+            <!-- Preview Box when slip uploaded -->
+            <div id="slipPreviewContainer" class="hidden bg-white p-3 rounded-xl border border-neutral-200 flex items-center justify-between gap-3 shadow-xs">
+              <div class="flex items-center gap-3 min-w-0">
+                <img id="slipPreviewImg" src="" alt="Slip Preview" class="w-12 h-14 object-cover rounded-lg border border-neutral-200 shadow-xs shrink-0" />
+                <div class="truncate">
+                  <span class="text-xs font-bold text-gray-800 block truncate" id="slipFileName">สลิปโอนเงิน.jpg</span>
+                  <span class="text-[10px] text-green-600 font-bold flex items-center gap-1 mt-0.5"><i class="fa-solid fa-circle-check"></i> แนบสลิปเรียบร้อยแล้ว</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <label for="orderSlipInput" class="px-2.5 py-1 text-[11px] font-bold text-gray-700 hover:text-black border border-neutral-300 hover:border-black rounded-lg cursor-pointer transition">
+                  เปลี่ยนรูป
+                </label>
+                <button type="button" onclick="removeUploadedSlip()" class="w-7 h-7 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg flex items-center justify-center transition" title="ลบรูปสลิป">
+                  <i class="fa-solid fa-trash text-xs"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. Items Review -->
+        <div class="bg-neutral-50 p-4 rounded-xl border border-neutral-200">
+          <h3 class="text-xs font-bold text-gray-800 uppercase tracking-wider mb-2">3. สรุปรายการคำสั่งซื้อ</h3>
+          <div id="checkoutItemsList" class="space-y-1"></div>
+
+          <div class="mt-4 pt-3 border-t border-neutral-200 space-y-1 text-xs">
+            <div class="flex justify-between text-gray-600">
+              <span>ยอดรวมสินค้า</span>
+              <span id="checkoutSubtotal" class="font-bold text-gray-900 font-sans">฿0</span>
+            </div>
+            <div class="flex justify-between text-gray-600">
+              <span>ค่าจัดส่ง</span>
+              <span id="checkoutShipping" class="font-bold text-gray-900 font-sans">฿0</span>
+            </div>
+            <div class="flex justify-between text-green-600">
+              <span>ส่วนลดทั้งหมด</span>
+              <span id="checkoutDiscount" class="font-bold font-sans">-฿0</span>
+            </div>
+            <div class="flex justify-between text-sm font-black text-black pt-2 border-t border-neutral-200">
+              <span>ยอดชำระสุทธิ</span>
+              <span id="checkoutGrandTotal" class="text-base text-black font-sans">฿0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" onclick="closeCheckoutModal()" class="px-5 py-2.5 text-xs font-bold text-gray-600 hover:text-black transition">
+            ยกเลิก
+          </button>
+          <button type="submit" class="px-8 py-3 bg-black hover:bg-neutral-800 text-white text-xs sm:text-sm font-black rounded-xl uppercase tracking-wider transition shadow-xl flex items-center gap-2">
+            <i class="fa-solid fa-lock"></i> ยืนยันคำสั่งซื้อ
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 13. ORDER RECEIPT MODAL -->
+  <div id="orderReceiptModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content-box bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 sm:p-8 relative border border-neutral-200">
+      
+      <div class="text-center pb-4 border-b border-neutral-200">
+        <div class="w-14 h-14 bg-black text-white rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-md">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <span class="text-[10px] font-extrabold uppercase tracking-widest bg-neutral-100 text-black px-2.5 py-1 rounded">ORDER CONFIRMED</span>
+        <h2 class="text-xl font-black text-gray-900 mt-2">สั่งซื้อสินค้าสำเร็จแล้ว!</h2>
+        <p class="text-xs text-gray-500 mt-1">ขอบคุณที่ช้อปปิ้งกับร้าน VORTEX คำสั่งซื้อถูกส่งไปที่หลังบ้านเรียบร้อย</p>
+      </div>
+
+      <div class="py-4 space-y-2.5 text-xs">
+        <div class="flex justify-between py-1 border-b border-gray-100">
+          <span class="text-gray-500">หมายเลขคำสั่งซื้อ:</span>
+          <span id="receiptOrderId" class="font-mono font-bold text-black">VTX-0000</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-gray-100">
+          <span class="text-gray-500">วันที่ทำรายการ:</span>
+          <span id="receiptDate" class="font-medium text-gray-800"></span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-gray-100">
+          <span class="text-gray-500">ชื่อผู้รับ:</span>
+          <span id="receiptCustName" class="font-bold text-gray-900"></span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-gray-100">
+          <span class="text-gray-500">เบอร์โทรศัพท์:</span>
+          <span id="receiptCustPhone" class="text-gray-800"></span>
+        </div>
+        <div class="py-1 border-b border-gray-100">
+          <span class="text-gray-500 block mb-0.5">ที่อยู่จัดส่ง:</span>
+          <span id="receiptCustAddress" class="text-gray-800 leading-relaxed font-medium"></span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-gray-100">
+          <span class="text-gray-500">วิธีจัดส่ง:</span>
+          <span id="receiptShippingMethod" class="font-medium text-gray-800"></span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-gray-100">
+          <span class="text-gray-500">วิธีชำระเงิน:</span>
+          <span id="receiptPaymentMethod" class="font-bold text-black"></span>
+        </div>
+        <div id="receiptSlipRow" class="hidden flex justify-between items-center py-1 border-b border-gray-100">
+          <span class="text-gray-500">หลักฐานการโอน:</span>
+          <span class="text-xs font-bold text-emerald-600 flex items-center gap-1">
+            <i class="fa-solid fa-circle-check"></i> แนบสลิปแล้ว
+          </span>
+        </div>
+        <div class="mt-3">
+          <span class="text-[11px] font-bold text-gray-500 uppercase tracking-wider block mb-1">รายการสินค้า:</span>
+          <div id="receiptItemsList" class="bg-neutral-50 p-2.5 rounded-lg border border-neutral-200 space-y-1"></div>
+        </div>
+        <div class="flex justify-between items-center pt-2 text-sm font-black text-black">
+          <span>ยอดชำระสุทธิ:</span>
+          <span id="receiptGrandTotal" class="text-base text-black font-sans font-black">฿0</span>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-neutral-200 flex items-center justify-between gap-3 no-print">
+        <button onclick="window.print()" class="px-4 py-2.5 border border-neutral-300 hover:border-black rounded-lg text-xs font-bold text-gray-700 flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-print"></i> พิมพ์ใบเสร็จ
+        </button>
+        <button onclick="closeReceiptModal()" class="px-6 py-2.5 bg-black hover:bg-neutral-800 text-white rounded-lg text-xs font-bold uppercase transition">
+          เลือกซื้อสินค้าต่อ
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 13.5 CUSTOMER REVIEW MODAL (เขียนรีวิว + แนบรูปภาพ) -->
+  <div id="reviewModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content-box bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-neutral-200 overflow-hidden flex flex-col max-h-[92vh]">
+      
+      <!-- Modal Header -->
+      <div class="px-5 py-4 sm:px-6 sm:py-5 border-b border-neutral-100 flex items-center justify-between bg-neutral-50/70 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-xs font-bold shadow-xs">
+            <i class="fa-solid fa-pen-nib"></i>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-black text-gray-900 leading-tight">เขียนรีวิวความประทับใจ</h3>
+            <p class="text-[11px] text-gray-500 mt-0.5">แบ่งปันประสบการณ์การช้อปสตรีทแวร์กับ VORTEX</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeReviewModal()" class="w-8 h-8 rounded-full bg-white hover:bg-neutral-200 text-gray-400 hover:text-black flex items-center justify-center transition border border-neutral-200 shadow-2xs">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body Form -->
+      <form id="customerReviewForm" onsubmit="submitReviewForm(event)" class="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs">
+        
+        <!-- 1. Star Rating Selection -->
+        <div class="bg-neutral-50 p-4 rounded-2xl border border-neutral-200 text-center">
+          <label class="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-2">
+            ระดับความพึงพอใจของคุณ <span class="text-red-500">*</span>
+          </label>
+          <div class="flex items-center justify-center gap-2 my-1" id="reviewStarRatingContainer">
+            <button type="button" onclick="setReviewRating(1)" data-star="1" class="review-star-btn p-1 transition cursor-pointer">
+              <i class="fa-solid fa-star text-yellow-400 text-2xl"></i>
+            </button>
+            <button type="button" onclick="setReviewRating(2)" data-star="2" class="review-star-btn p-1 transition cursor-pointer">
+              <i class="fa-solid fa-star text-yellow-400 text-2xl"></i>
+            </button>
+            <button type="button" onclick="setReviewRating(3)" data-star="3" class="review-star-btn p-1 transition cursor-pointer">
+              <i class="fa-solid fa-star text-yellow-400 text-2xl"></i>
+            </button>
+            <button type="button" onclick="setReviewRating(4)" data-star="4" class="review-star-btn p-1 transition cursor-pointer">
+              <i class="fa-solid fa-star text-yellow-400 text-2xl"></i>
+            </button>
+            <button type="button" onclick="setReviewRating(5)" data-star="5" class="review-star-btn p-1 transition cursor-pointer">
+              <i class="fa-solid fa-star text-yellow-400 text-2xl"></i>
+            </button>
+          </div>
+          <div id="reviewRatingText" class="text-xs font-bold text-gray-800 mt-1">
+            ⭐⭐⭐⭐⭐ ยอดเยี่ยมมาก ประทับใจที่สุด (5 ดาว)
+          </div>
+        </div>
+
+        <!-- 2. Author Name -->
+        <div>
+          <label for="reviewAuthorName" class="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+            ชื่อของคุณ / นามแฝง <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="reviewAuthorName" 
+            placeholder="เช่น คุณเอก BKK, น้องมิ้นท์ Streetwear" 
+            required
+            class="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 focus:border-black focus:ring-1 focus:ring-black outline-none transition bg-white text-xs"
+          />
+        </div>
+
+        <!-- 3. Review Comment Text -->
+        <div>
+          <label for="reviewCommentInput" class="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+            ข้อความรีวิวความประทับใจ <span class="text-red-500">*</span>
+          </label>
+          <textarea 
+            id="reviewCommentInput" 
+            rows="3" 
+            required
+            placeholder="เล่าถึงเนื้อผ้า, ทรงเสื้อ, ความรวดเร็วในการจัดส่ง, หรือบริการของร้านค้า..." 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 focus:border-black focus:ring-1 focus:ring-black outline-none transition bg-white text-xs leading-relaxed"
+          ></textarea>
+        </div>
+
+        <!-- 5. Photo Upload Zone -->
+        <div>
+          <label class="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+            แนบรูปภาพรีวิว (รูปสินค้าจริง หรือ รูปแคปแชทการสั่งซื้อ)
+          </label>
+          
+          <div class="relative">
+            <input 
+              type="file" 
+              id="reviewImageFileInput" 
+              accept="image/*" 
+              onchange="handleReviewImageUpload(event)" 
+              class="hidden" 
+            />
+            
+            <!-- Upload Placeholder -->
+            <label 
+              id="reviewUploadPlaceholder"
+              for="reviewImageFileInput" 
+              class="border-2 border-dashed border-neutral-300 hover:border-black rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition bg-neutral-50/60 hover:bg-neutral-100/50 group"
+            >
+              <div class="w-10 h-10 rounded-full bg-white border border-neutral-200 flex items-center justify-center text-gray-500 group-hover:text-black mb-2 shadow-2xs group-hover:scale-105 transition">
+                <i class="fa-solid fa-camera text-sm"></i>
+              </div>
+              <span class="text-xs font-bold text-gray-800 group-hover:text-black">คลิกเพื่อเลือกรูปภาพ หรือถ่ายรูป</span>
+              <span class="text-[10px] text-gray-400 mt-0.5">รองรับ JPG, PNG, WEBP จากกล้องมือถือหรือคอมพิวเตอร์</span>
+            </label>
+
+            <!-- Image Preview Box -->
+            <div id="reviewImagePreviewBox" class="hidden bg-white p-3 rounded-2xl border border-neutral-200 flex items-center justify-between gap-3 shadow-2xs">
+              <div class="flex items-center gap-3 min-w-0">
+                <img id="reviewImagePreview" src="" alt="Review Preview" class="w-14 h-14 object-cover rounded-xl border border-neutral-200 shadow-2xs shrink-0" />
+                <div class="truncate">
+                  <span class="text-xs font-bold text-gray-900 block">รูปภาพรีวิวของคุณ</span>
+                  <span class="text-[10px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5">
+                    <i class="fa-solid fa-circle-check"></i> พร้อมอัปโหลด
+                  </span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <label for="reviewImageFileInput" class="px-2.5 py-1 text-[11px] font-bold text-gray-700 hover:text-black border border-neutral-300 hover:border-black rounded-lg cursor-pointer transition">
+                  เปลี่ยนรูป
+                </label>
+                <button type="button" onclick="removeReviewImage()" class="w-7 h-7 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg flex items-center justify-center transition" title="ลบรูป">
+                  <i class="fa-solid fa-trash text-xs"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Submit & Cancel Buttons -->
+        <div class="pt-3 border-t border-neutral-200 flex items-center justify-end gap-3 shrink-0">
+          <button 
+            type="button" 
+            onclick="closeReviewModal()" 
+            class="px-4 py-2.5 rounded-xl border border-neutral-300 text-gray-600 font-bold hover:bg-neutral-100 transition text-xs cursor-pointer"
+          >
+            ยกเลิก
+          </button>
+          <button 
+            type="submit" 
+            class="px-6 py-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white font-black text-xs uppercase tracking-wider transition shadow-md active:scale-95 flex items-center gap-2 cursor-pointer"
+          >
+            <i class="fa-solid fa-paper-plane text-xs"></i>
+            <span>ส่งรีวิวความประทับใจ</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- 13.6 REVIEW IMAGE LIGHTBOX MODAL (ดูรูปรีวิวขยายใหญ่) -->
+  <div id="reviewImageLightboxModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm" onclick="closeReviewImageLightbox()">
+    <div class="relative max-w-2xl w-full flex flex-col items-center" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeReviewImageLightbox()" class="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/20 hover:bg-white text-white hover:text-black flex items-center justify-center transition shadow-lg backdrop-blur-md">
+        <i class="fa-solid fa-xmark text-base"></i>
+      </button>
+      <div class="rounded-2xl overflow-hidden bg-black border border-white/20 shadow-2xl max-h-[80vh] flex items-center justify-center">
+        <img id="reviewLightboxImg" src="" alt="ภาพรีวิวขยายใหญ่" class="max-w-full max-h-[80vh] object-contain" />
+      </div>
+      <div id="reviewLightboxTitle" class="mt-3 text-white text-xs font-bold text-center tracking-wide bg-black/60 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-md">
+        รูปภาพรีวิวจากลูกค้า VORTEX
+      </div>
+    </div>
+  </div>
+
+  <!-- 14. FLOATING MOBILE BOTTOM NAVIGATION -->
+  <nav class="mobile-bottom-bar md:hidden flex items-center justify-around py-2 px-3">
+    <a href="index.html" class="flex flex-col items-center text-black">
+      <i class="fa-solid fa-house text-base"></i>
+      <span class="text-[10px] font-bold mt-1">หน้าแรก</span>
+    </a>
+    <a href="#productsSection" class="flex flex-col items-center text-gray-500 hover:text-black">
+      <i class="fa-solid fa-shirt text-base"></i>
+      <span class="text-[10px] font-medium mt-1">สินค้า</span>
+    </a>
+    <button onclick="openCartDrawer()" class="flex flex-col items-center text-gray-500 hover:text-black relative">
+      <div class="relative">
+        <i class="fa-solid fa-bag-shopping text-base"></i>
+        <span class="cart-count-badge absolute -top-1.5 -right-2.5 bg-black text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">
+          0
+        </span>
+      </div>
+      <span class="text-[10px] font-medium mt-1">ตะกร้า</span>
+    </button>
+    <button onclick="openMyOrdersModal()" class="flex flex-col items-center text-gray-500 hover:text-black">
+      <i class="fa-solid fa-truck-fast text-base"></i>
+      <span class="text-[10px] font-medium mt-1">ออเดอร์</span>
+    </button>
+    <a href="login.html" class="flex flex-col items-center text-gray-500 hover:text-black">
+      <i class="fa-solid fa-user text-base"></i>
+      <span class="text-[10px] font-medium mt-1">บัญชี</span>
+    </a>
+  </nav>
+
+  <!-- Floating Luxury Back to Top Button -->
+  <button id="backToTopBtn" onclick="scrollToTop()" title="กลับสู่ด้านบน" class="back-to-top-btn" aria-label="กลับสู่ด้านบน">
+    <i class="fa-solid fa-arrow-up text-sm"></i>
+  </button>
+
+  <!-- Floating LINE Contact Button -->
+  <a href="https://line.me/R/ti/p/@152zpxzv" target="_blank" rel="noopener noreferrer" id="floatingLineBtn" title="ติดต่อทาง LINE Official @152zpxzv" class="floating-line-btn" aria-label="ติดต่อทาง LINE Official">
+    <i class="fa-brands fa-line text-lg"></i>
+    <span class="text-xs font-bold tracking-tight hidden sm:inline">LINE: @152zpxzv</span>
+  </a>
+
+  <!-- Floating Customer Live Chat Button -->
+  <button id="customerChatTriggerBtn" onclick="toggleCustomerChat()" title="แชทกับแอดมิน" class="customer-chat-trigger-btn" aria-label="แชทกับแอดมิน">
+    <div class="relative flex items-center justify-center">
+      <i class="fa-solid fa-comment-dots text-base text-yellow-400"></i>
+      <span id="customerChatUnreadBadge" class="absolute -top-2.5 -right-3 bg-red-600 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow hidden">0</span>
+    </div>
+    <span class="text-xs font-bold tracking-tight hidden sm:inline">แชทกับแอดมิน</span>
+  </button>
+
+  <!-- Customer Live Chat Window Pop-up -->
+  <div id="customerChatBox" class="customer-chat-window">
+    <!-- Header -->
+    <div class="bg-black text-white p-3.5 sm:p-4 flex items-center justify-between shadow-md shrink-0">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-full bg-white border border-neutral-300 p-0.5 flex items-center justify-center relative overflow-hidden shrink-0 shadow-xs">
+          <img src="images/vortex_logo.png" alt="VORTEX Support" class="w-full h-full object-contain" />
+          <span class="w-2.5 h-2.5 rounded-full bg-green-500 absolute bottom-0 right-0 border-2 border-white"></span>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold tracking-wide flex items-center gap-1.5">
+            <span>VORTEX SUPPORT</span>
+            <span class="bg-yellow-400/20 text-yellow-300 text-[9px] font-black px-1.5 py-0.2 rounded border border-yellow-400/30">OFFICIAL</span>
+          </h4>
+          <span class="text-[10px] text-neutral-400 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+            <span>แอดมินออนไลน์ พร้อมตอบคำถาม</span>
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="https://line.me/R/ti/p/@152zpxzv" target="_blank" rel="noopener noreferrer" class="px-2 py-1 bg-[#06C755] hover:bg-[#05b34c] text-white text-[10px] font-bold rounded-lg transition flex items-center gap-1 shadow-xs" title="แชททาง LINE Official">
+          <i class="fa-brands fa-line text-xs"></i>
+          <span>LINE</span>
+        </a>
+        <button onclick="toggleCustomerChat(false)" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 text-gray-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-xs"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages Body -->
+    <div id="customerChatMessages" class="flex-1 p-3.5 overflow-y-auto space-y-3 bg-neutral-50 flex flex-col">
+      <!-- Welcome Message & Message History rendered by app.js -->
+    </div>
+
+    <!-- Quick Question Chips -->
+    <div class="p-2 border-t border-neutral-200/80 bg-white flex gap-1.5 overflow-x-auto scrollbar-none text-[11px] shrink-0">
+      <a href="https://line.me/R/ti/p/@152zpxzv" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-full bg-emerald-50 hover:bg-[#06C755] hover:text-white text-[#06C755] transition font-bold shrink-0 flex items-center gap-1">
+        <i class="fa-brands fa-line text-xs"></i> แอดไลน์ร้าน
+      </a>
+      <button type="button" onclick="sendCustomerQuickMessage('สอบถามไซส์เสื้อผ้าครับ')" class="px-2.5 py-1 rounded-full bg-neutral-100 hover:bg-black hover:text-white text-gray-700 transition font-medium shrink-0">
+        📏 สอบถามไซส์
+      </button>
+      <button type="button" onclick="sendCustomerQuickMessage('เช็คสถานะการจัดส่งพัสดุครับ')" class="px-2.5 py-1 rounded-full bg-neutral-100 hover:bg-black hover:text-white text-gray-700 transition font-medium shrink-0">
+        📦 เช็คพัสดุ
+      </button>
+      <button type="button" onclick="sendCustomerQuickMessage('สอบถามรอบการจัดส่งวันนี้ครับ')" class="px-2.5 py-1 rounded-full bg-neutral-100 hover:bg-black hover:text-white text-gray-700 transition font-medium shrink-0">
+        🚚 รอบส่งวันนี้
+      </button>
+    </div>
+
+    <!-- Chat Input Form -->
+    <form id="customerChatForm" onsubmit="handleCustomerChatSubmit(event)" class="p-2.5 sm:p-3 bg-white border-t border-neutral-200 flex items-center gap-2 shrink-0">
+      <input 
+        type="text" 
+        id="customerChatInput" 
+        placeholder="พิมพ์ข้อความสอบถามแอดมิน..." 
+        autocomplete="off"
+        class="flex-1 text-xs px-3.5 py-2.5 rounded-full border border-neutral-300 outline-none focus:border-black bg-neutral-50 focus:bg-white transition"
+      />
+      <button type="submit" class="w-9 h-9 rounded-full bg-black hover:bg-neutral-800 text-white flex items-center justify-center transition shadow shrink-0 active:scale-95">
+        <i class="fa-solid fa-paper-plane text-xs"></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Firebase SDK Compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <!-- Core JavaScript -->
+  <script src="app.js?v=20260920"></script>
+
+  <!-- Store Background FX Engine (Monochrome B&W) -->
+  <script src="store-background.js"></script>
+</body>
+</html>

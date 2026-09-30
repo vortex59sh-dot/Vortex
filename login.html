@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เข้าสู่ระบบ / สมัครสมาชิก | VORTEX Streetwear</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/vortex_logo.png" />
+
+  <style>
+    /* Cyber Grid Pattern */
+    .cyber-grid-pattern {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 40%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 40%, transparent 100%);
+    }
+
+    /* Outlined Typography Watermark */
+    .watermark-stroke {
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.035);
+      color: transparent;
+      user-select: none;
+    }
+
+    /* Glowing Pulse Animations */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-25px) scale(1.05); }
+    }
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0px) scale(1.05); }
+      50% { transform: translateY(25px) scale(1); }
+    }
+    .animate-float-slow {
+      animation: floatSlow 12s ease-in-out infinite;
+    }
+    .animate-float-reverse {
+      animation: floatReverse 15s ease-in-out infinite;
+    }
+
+    /* Glowing Accent Bar */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animated-accent-line {
+      background: linear-gradient(90deg, #111111, #ffffff, #666666, #ffffff, #111111);
+      background-size: 300% 100%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    /* Input focus glow */
+    .auth-input:focus {
+      border-color: #000000;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-[#09090b] min-h-screen flex flex-col justify-between text-neutral-900 selection:bg-white selection:text-black relative overflow-x-hidden">
+
+  <!-- ================= BACKGROUND INTERACTIVE EFFECTS ================= -->
+  
+  <!-- Interactive Mouse Spotlight (วิ่งตามเคอร์เซอร์เมาส์) -->
+  <div 
+    id="mouseSpotlight" 
+    class="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
+    style="background: radial-gradient(650px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06), transparent 75%);"
+  ></div>
+
+  <!-- Tech Grid Background Pattern -->
+  <div class="pointer-events-none fixed inset-0 z-0 cyber-grid-pattern"></div>
+
+  <!-- Ambient Glowing Blobs -->
+  <div class="pointer-events-none fixed -top-40 -left-20 w-[550px] h-[550px] bg-neutral-600/15 rounded-full blur-[130px] animate-float-slow z-0"></div>
+  <div class="pointer-events-none fixed -bottom-40 -right-20 w-[650px] h-[650px] bg-neutral-500/15 rounded-full blur-[150px] animate-float-reverse z-0"></div>
+
+  <!-- Giant Typographic Background Watermark -->
+  <div class="pointer-events-none select-none fixed inset-0 z-0 overflow-hidden flex flex-col justify-between p-6 sm:p-12 opacity-60">
+    <div class="watermark-stroke text-[18vw] font-black tracking-tighter leading-none">
+      VORTEX
+    </div>
+    <div class="watermark-stroke text-[14vw] font-black tracking-tighter leading-none text-right">
+      ATELIER
+    </div>
+  </div>
+
+  <!-- Streetwear HUD Technical Badges (ลวดลายตกแต่งด้านข้างซ้าย-ขวา) -->
+  <div class="pointer-events-none hidden xl:flex flex-col gap-4 fixed left-8 top-1/2 -translate-y-1/2 z-0 font-mono text-[10px] text-neutral-400 select-none">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <span class="text-neutral-400">SYS.LOC // BKK ATELIER</span>
+    </div>
+    <div class="border-l border-neutral-700/60 pl-3 py-1 space-y-1">
+      <div>LAT: 13.7563° N</div>
+      <div>LON: 100.5018° E</div>
+      <div class="text-neutral-400">AUTH: 256-BIT SSL</div>
+    </div>
+    <!-- Barcode Deco -->
+    <div class="pt-2 opacity-50">
+      <div class="flex items-end gap-[2px] h-6">
+        <div class="w-[2px] h-full bg-neutral-400"></div>
+        <div class="w-[1px] h-4 bg-neutral-400"></div>
+        <div class="w-[3px] h-full bg-neutral-400"></div>
+        <div class="w-[1px] h-3 bg-neutral-400"></div>
+        <div class="w-[2px] h-5 bg-neutral-400"></div>
+        <div class="w-[4px] h-full bg-neutral-400"></div>
+        <div class="w-[1px] h-4 bg-neutral-400"></div>
+        <div class="w-[2px] h-full bg-neutral-400"></div>
+      </div>
+      <span class="text-[9px] tracking-widest text-neutral-400">NO. 2026-VTX</span>
+    </div>
+  </div>
+
+  <div class="pointer-events-none hidden xl:flex flex-col items-end gap-3 fixed right-8 top-1/2 -translate-y-1/2 z-0 font-mono text-[10px] text-neutral-400 select-none">
+    <div class="px-2.5 py-1 rounded bg-neutral-900/80 border border-neutral-700/60 text-neutral-300">
+      CORE SPEC // V2.4
+    </div>
+    <div class="text-right text-[9px] text-neutral-400 leading-relaxed">
+      STREETWEAR ATELIER<br />
+      EXCLUSIVE MEMBER ACCESS<br />
+      ALL RIGHTS RESERVED
+    </div>
+    <div class="flex items-center gap-1.5 text-emerald-400 text-[10px]">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>ENCRYPTED PORTAL</span>
+    </div>
+  </div>
+
+  <!-- ================= TOP NAVIGATION ================= -->
+  <header class="bg-black/40 backdrop-blur-xl border-b border-white/10 py-3.5 px-4 sm:px-8 relative z-20 transition-all">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-xl bg-white border border-neutral-200 p-0.5 flex items-center justify-center shadow-lg group-hover:scale-105 group-hover:shadow-white/20 transition-all">
+          <img src="images/vortex_logo.png" alt="VORTEX" class="w-full h-full object-contain" />
+        </div>
+        <div class="flex flex-col">
+          <span class="text-lg font-black tracking-tight text-white group-hover:text-gray-200 transition">VORTEX</span>
+          <span class="text-[9px] font-mono tracking-widest text-neutral-400 -mt-1 uppercase">Atelier</span>
+        </div>
+      </a>
+      <a href="index.html" class="text-xs font-bold text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 px-3.5 py-1.5 rounded-full flex items-center gap-2 transition shadow-sm">
+        <i class="fa-solid fa-arrow-left text-[10px]"></i>
+        <span>กลับสู่หน้าร้าน</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ================= MAIN AUTH CONTAINER ================= -->
+  <main class="flex-1 flex items-center justify-center p-4 sm:p-6 my-6 relative z-10">
+    <div 
+      id="authCard"
+      class="w-full max-w-md bg-white/95 backdrop-blur-2xl rounded-3xl shadow-[0_25px_80px_-15px_rgba(0,0,0,0.8)] border border-white/40 overflow-hidden relative transition-all duration-300"
+    >
+      
+      <!-- Animated Accent Top Line -->
+      <div class="h-1.5 w-full animated-accent-line"></div>
+
+      <!-- Technical Viewfinder Corners -->
+      <span class="absolute top-2.5 left-3 text-[10px] font-mono text-gray-400 select-none pointer-events-none">┌</span>
+      <span class="absolute top-2.5 right-3 text-[10px] font-mono text-gray-400 select-none pointer-events-none">┐</span>
+
+      <!-- Brand Header in Card -->
+      <div class="bg-black text-white p-6 sm:p-7 text-center relative overflow-hidden">
+        <div class="absolute -right-6 -bottom-6 text-white/5 text-8xl font-black select-none pointer-events-none">VX</div>
+        <div class="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest bg-neutral-800/80 text-gray-300 px-3 py-1 rounded-full border border-neutral-700/60 shadow-xs mb-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span>MEMBER PORTAL</span>
+        </div>
+        <h1 class="text-2xl font-black tracking-tight mt-1 text-white">VORTEX ATELIER</h1>
+        <p class="text-xs text-gray-400 mt-1 max-w-xs mx-auto">สตรีทแวร์มินิมอล เข้าสู่ระบบเพื่อช้อปปิ้งและจัดการคำสั่งซื้อ</p>
+      </div>
+
+      <!-- Auth Tabs (Sign In / Register) -->
+      <div class="flex border-b border-neutral-200 text-center text-xs font-bold bg-neutral-50/80">
+        <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-3.5 border-b-2 border-black text-black bg-white transition cursor-pointer">
+          <i class="fa-solid fa-arrow-right-to-bracket mr-1.5 text-[11px]"></i>เข้าสู่ระบบ (Sign In)
+        </button>
+        <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-3.5 border-b-2 border-transparent text-gray-400 bg-neutral-50/80 hover:text-black transition cursor-pointer">
+          <i class="fa-solid fa-user-plus mr-1.5 text-[11px]"></i>สมัครสมาชิก (Sign Up)
+        </button>
+      </div>
+
+      <div class="p-6 sm:p-8">
+        
+        <!-- =================== LOGIN FORM =================== -->
+        <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">ชื่อผู้ใช้งานหรืออีเมล (Username / Email) *</label>
+            <div class="relative">
+              <i class="fa-regular fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input 
+                type="text" 
+                id="loginEmail" 
+                required 
+                placeholder="เช่น tawanwat หรือ user@vortex.com" 
+                class="auth-input w-full pl-10 pr-3 py-2.5 text-xs rounded-xl border border-neutral-300 outline-none bg-neutral-50 focus:bg-white transition"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">รหัสผ่าน (Password) *</label>
+            <div class="relative">
+              <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input 
+                type="password" 
+                id="loginPassword" 
+                required 
+                placeholder="กรอกรหัสผ่าน" 
+                class="auth-input w-full pl-10 pr-10 py-2.5 text-xs rounded-xl border border-neutral-300 outline-none bg-neutral-50 focus:bg-white transition"
+              />
+              <button 
+                type="button" 
+                onclick="togglePasswordVisibility('loginPassword', 'loginEyeIcon')" 
+                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black text-xs transition p-1"
+                title="แสดง/ซ่อนรหัสผ่าน"
+              >
+                <i id="loginEyeIcon" class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-gray-500 pt-1">
+            <label class="flex items-center gap-1.5 cursor-pointer select-none">
+              <input type="checkbox" checked class="custom-checkbox rounded cursor-pointer" />
+              <span>จดจำการเข้าสู่ระบบ</span>
+            </label>
+            <a href="javascript:void(0)" onclick="alert('สำหรับทดสอบ เข้าสู่ระบบด้วย:\n• บัญชีแอดมิน: tawanwat / 59955995\n• บัญชีลูกค้า: user@vortex.com / user123')" class="hover:text-black underline font-semibold transition">
+              ลืมรหัสผ่าน?
+            </a>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full py-3.5 bg-black hover:bg-neutral-800 text-white font-black text-xs uppercase tracking-wider rounded-xl transition shadow-lg mt-2 flex items-center justify-center gap-2 active:scale-[0.99] cursor-pointer"
+          >
+            <i class="fa-solid fa-arrow-right-to-bracket text-xs"></i> เข้าสู่ระบบ
+          </button>
+        </form>
+
+        <!-- =================== REGISTER FORM =================== -->
+        <form id="registerForm" onsubmit="handleRegisterSubmit(event)" class="space-y-4 hidden">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">ชื่อ-นามสกุล หรือ ชื่อเรียก *</label>
+            <div class="relative">
+              <i class="fa-regular fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input 
+                type="text" 
+                id="regName" 
+                required 
+                placeholder="เช่น กิตติศักดิ์ ชัยมงคล" 
+                class="auth-input w-full pl-10 pr-3 py-2.5 text-xs rounded-xl border border-neutral-300 outline-none bg-neutral-50 focus:bg-white transition"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">อีเมล (Email) *</label>
+            <div class="relative">
+              <i class="fa-regular fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input 
+                type="email" 
+                id="regEmail" 
+                required 
+                placeholder="example@vortex.com" 
+                class="auth-input w-full pl-10 pr-3 py-2.5 text-xs rounded-xl border border-neutral-300 outline-none bg-neutral-50 focus:bg-white transition"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">หมายเลขโทรศัพท์</label>
+            <div class="relative">
+              <i class="fa-solid fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input 
+                type="tel" 
+                id="regPhone" 
+                placeholder="08x-xxx-xxxx" 
+                class="auth-input w-full pl-10 pr-3 py-2.5 text-xs rounded-xl border border-neutral-300 outline-none bg-neutral-50 focus:bg-white transition"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">สร้างรหัสผ่าน (Password) *</label>
+            <div class="relative">
+              <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input 
+                type="password" 
+                id="regPassword" 
+                required 
+                minlength="4" 
+                placeholder="กำหนดรหัสผ่านอย่างน้อย 4 ตัวอักษร" 
+                class="auth-input w-full pl-10 pr-10 py-2.5 text-xs rounded-xl border border-neutral-300 outline-none bg-neutral-50 focus:bg-white transition"
+              />
+              <button 
+                type="button" 
+                onclick="togglePasswordVisibility('regPassword', 'regEyeIcon')" 
+                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black text-xs transition p-1"
+                title="แสดง/ซ่อนรหัสผ่าน"
+              >
+                <i id="regEyeIcon" class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full py-3.5 bg-black hover:bg-neutral-800 text-white font-black text-xs uppercase tracking-wider rounded-xl transition shadow-lg mt-2 flex items-center justify-center gap-2 active:scale-[0.99] cursor-pointer"
+          >
+            <i class="fa-solid fa-user-plus text-xs"></i> สมัครสมาชิก VORTEX
+          </button>
+        </form>
+
+      </div>
+
+      <!-- Footer Info -->
+      <div class="p-4 bg-neutral-50 border-t border-neutral-200 text-center text-[11px] text-gray-500">
+        เมื่อเข้าสู่ระบบ แสดงว่าท่านยอมรับ <a href="javascript:void(0)" class="underline text-black font-semibold">เงื่อนไขการใช้บริการ</a> ของ VORTEX
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="py-4 text-center text-xs text-neutral-400 font-mono relative z-10 border-t border-white/5 bg-black/30 backdrop-blur-md">
+    <div class="flex items-center justify-center gap-2">
+      <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+      <span>© 2026 VORTEX Streetwear Atelier. Secure Authentication Protocol.</span>
+    </div>
+  </footer>
+
+  <!-- Firebase SDK Compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <!-- Scripts -->
+  <script src="app.js?v=20260920"></script>
+  <script>
+    // Mouse Interactive Spotlight Tracker
+    document.addEventListener("mousemove", (e) => {
+      const spotlight = document.getElementById("mouseSpotlight");
+      if (spotlight) {
+        spotlight.style.setProperty("--mouse-x", `${e.clientX}px`);
+        spotlight.style.setProperty("--mouse-y", `${e.clientY}px`);
+      }
+    });
+
+    // Toggle Password Visibility Function
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (!input || !icon) return;
+
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+      } else {
+        input.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+      }
+    }
+
+    // Tab Switch Controller
+    function switchAuthTab(tab) {
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+      const tabLoginBtn = document.getElementById("tabLoginBtn");
+      const tabRegisterBtn = document.getElementById("tabRegisterBtn");
+
+      if (tab === "login") {
+        loginForm.classList.remove("hidden");
+        registerForm.classList.add("hidden");
+        tabLoginBtn.className = "flex-1 py-3.5 border-b-2 border-black text-black bg-white transition cursor-pointer";
+        tabRegisterBtn.className = "flex-1 py-3.5 border-b-2 border-transparent text-gray-400 bg-neutral-50/80 hover:text-black transition cursor-pointer";
+      } else {
+        loginForm.classList.add("hidden");
+        registerForm.classList.remove("hidden");
+        tabRegisterBtn.className = "flex-1 py-3.5 border-b-2 border-black text-black bg-white transition cursor-pointer";
+        tabLoginBtn.className = "flex-1 py-3.5 border-b-2 border-transparent text-gray-400 bg-neutral-50/80 hover:text-black transition cursor-pointer";
+      }
+    }
+
+    // Quick Demo Login Helper
+    function quickLogin(email, password) {
+      document.getElementById("loginEmail").value = email;
+      document.getElementById("loginPassword").value = password;
+      switchAuthTab("login");
+      const res = loginUser(email, password);
+      if (res.success) {
+        showToast(`ยินดีต้อนรับคุณ ${res.user.name}`, "success");
+        handleRedirectAfterAuth(res.user);
+      }
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      const res = loginUser(email, password);
+      if (res.success) {
+        showToast(`ยินดีต้อนรับ ${res.user.name}`, "success");
+        handleRedirectAfterAuth(res.user);
+      } else {
+        showToast(res.message, "error");
+      }
+    }
+
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById("regName").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const phone = document.getElementById("regPhone").value.trim();
+      const password = document.getElementById("regPassword").value;
+
+      const res = registerUser(name, email, password, phone);
+      if (res.success) {
+        showToast("สมัครสมาชิกสำเร็จ ยินดีต้อนรับสู่ครอบครัว VORTEX", "success");
+        handleRedirectAfterAuth(res.user);
+      } else {
+        showToast(res.message, "error");
+      }
+    }
+
+    function handleRedirectAfterAuth(user) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirect = urlParams.get("redirect");
+
+      setTimeout(() => {
+        if (redirect === "admin" && user.role === "admin") {
+          window.location.href = "admin.html";
+        } else if (user.role === "admin" && !redirect) {
+          window.location.href = "admin.html";
+        } else {
+          window.location.href = "index.html";
+        }
+      }, 700);
+    }
+
+    // Check query params on load
+    document.addEventListener("DOMContentLoaded", () => {
+      initStorage();
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("tab") === "register") {
+        switchAuthTab("register");
+      }
+    });
+  </script>
+</body>
+</html>

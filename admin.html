@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ระบบหลังบ้านแอดมิน (Admin Dashboard) | VORTEX</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+  
+  <!-- Dynamic Admin Background Effects -->
+  <link rel="stylesheet" href="admin-background.css" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/vortex_logo.png" />
+</head>
+<body data-page="admin" class="bg-neutral-100 text-neutral-900 min-h-screen flex flex-col selection:bg-black selection:text-white">
+
+  <!-- Top Admin Navbar -->
+  <header class="bg-black text-white sticky top-0 z-30 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Admin Tag -->
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-2 group">
+          <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center p-0.5 border border-neutral-700 shadow-sm overflow-hidden group-hover:scale-105 transition-transform">
+            <img src="images/vortex_logo.png" alt="VORTEX" class="w-full h-full object-contain" />
+          </div>
+          <span class="text-lg font-black tracking-tight">VORTEX</span>
+        </a>
+        <span class="bg-yellow-400 text-black text-[10px] font-extrabold px-2 py-0.5 rounded tracking-wider uppercase">
+          ADMIN DASHBOARD
+        </span>
+      </div>
+
+      <!-- Action Nav Items -->
+      <div class="flex items-center gap-3 text-xs">
+
+
+        <a href="#adminLiveChatSection" class="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg transition flex items-center gap-1.5 relative">
+          <i class="fa-solid fa-comments text-yellow-400"></i> 
+          <span>แชทลูกค้า</span>
+          <span id="adminHeaderChatBadge" class="bg-red-600 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+        </a>
+
+        <a href="index.html" class="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg transition flex items-center gap-1.5">
+          <i class="fa-solid fa-store"></i> ดูหน้าร้าน
+        </a>
+
+        <div class="flex items-center gap-2 pl-3 border-l border-neutral-800">
+          <div class="w-8 h-8 rounded-full bg-white border border-neutral-600 flex items-center justify-center overflow-hidden shrink-0 shadow-sm p-0.5">
+            <img src="images/vortex_logo.png" alt="Admin Avatar" class="w-full h-full object-contain" />
+          </div>
+          <span id="adminUserName" class="font-bold hidden sm:inline">Admin VORTEX</span>
+          <button onclick="logout()" class="text-neutral-400 hover:text-red-400 p-1 transition" title="ออกจากระบบ">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- 1. DASHBOARD OVERVIEW STATS -->
+    <section>
+      <div class="mb-4">
+        <h1 class="text-xl font-black text-gray-900 uppercase tracking-tight">ภาพรวมระบบ (OVERVIEW)</h1>
+        <p class="text-xs text-gray-500">สถิติยอดขาย คำสั่งซื้อ และสินค้าในระบบทั้งหมด</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        
+        <!-- Stat 1: Total Sales -->
+        <div class="bg-white p-5 rounded-2xl border border-neutral-200 shadow-xs flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center text-xl text-black shrink-0">
+            <i class="fa-solid fa-money-bill-trend-up"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider block">ยอดขายรวมทั้งหมด</span>
+            <span id="statTotalSales" class="text-lg sm:text-xl font-black text-black font-sans">฿0</span>
+          </div>
+        </div>
+
+        <!-- Stat 2: Orders Count -->
+        <div class="bg-white p-5 rounded-2xl border border-neutral-200 shadow-xs flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center text-xl text-black shrink-0">
+            <i class="fa-solid fa-boxes-packing"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider block">คำสั่งซื้อทั้งหมด</span>
+            <span id="statTotalOrders" class="text-lg sm:text-xl font-black text-black font-sans">0 ออเดอร์</span>
+          </div>
+        </div>
+
+        <!-- Stat 3: Products Count -->
+        <div class="bg-white p-5 rounded-2xl border border-neutral-200 shadow-xs flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center text-xl text-black shrink-0">
+            <i class="fa-solid fa-shirt"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider block">สินค้าในร้านค้า</span>
+            <span id="statTotalProducts" class="text-lg sm:text-xl font-black text-black font-sans">0 รายการ</span>
+          </div>
+        </div>
+
+        <!-- Stat 4: Customers Count -->
+        <div class="bg-white p-5 rounded-2xl border border-neutral-200 shadow-xs flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center text-xl text-black shrink-0">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider block">สมาชิกลูกค้า</span>
+            <span id="statTotalCustomers" class="text-lg sm:text-xl font-black text-black font-sans">0 บัญชี</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. ORDERS & SHIPMENT MANAGEMENT -->
+    <section class="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden">
+      
+      <div class="p-5 sm:p-6 border-b border-neutral-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-truck-ramp-box text-lg text-black"></i>
+            <h2 class="text-base font-black text-gray-900 uppercase">จัดการคำสั่งซื้อและการจัดส่ง (ORDERS & SHIPMENT)</h2>
+          </div>
+          <p class="text-xs text-gray-500 mt-0.5">ตรวจสอบออเดอร์ รับคำสั่งซื้อ และอัปเดตเลขพัสดุให้ลูกค้า</p>
+        </div>
+
+        <!-- Order Status Filters -->
+        <div class="flex flex-wrap items-center gap-1.5 text-xs">
+          <button data-status="all" class="admin-order-filter-btn px-3 py-1.5 bg-black text-white font-bold rounded-lg transition">
+            ทั้งหมด
+          </button>
+          <button data-status="รอชำระเงิน" class="admin-order-filter-btn px-3 py-1.5 bg-white text-gray-700 border border-gray-200 font-semibold rounded-lg hover:border-black transition">
+            รอชำระเงิน
+          </button>
+          <button data-status="กำลังเตรียมจัดส่ง" class="admin-order-filter-btn px-3 py-1.5 bg-white text-gray-700 border border-gray-200 font-semibold rounded-lg hover:border-black transition">
+            กำลังเตรียมจัดส่ง
+          </button>
+          <button data-status="จัดส่งแล้ว" class="admin-order-filter-btn px-3 py-1.5 bg-white text-gray-700 border border-gray-200 font-semibold rounded-lg hover:border-black transition">
+            จัดส่งแล้ว
+          </button>
+        </div>
+      </div>
+
+      <!-- Orders Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-neutral-50 text-gray-600 font-bold uppercase tracking-wider border-b border-neutral-200 text-[11px]">
+            <tr>
+              <th class="py-3.5 px-4">เลขออเดอร์</th>
+              <th class="py-3.5 px-4">วันที่-เวลา</th>
+              <th class="py-3.5 px-4">ลูกค้า (ผู้สั่งซื้อ)</th>
+              <th class="py-3.5 px-4">รายการสินค้า</th>
+              <th class="py-3.5 px-4">ยอดรวม</th>
+              <th class="py-3.5 px-4">สถานะ / เลขพัสดุ</th>
+              <th class="py-3.5 px-4 text-right">การจัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="adminOrdersTableBody">
+            <!-- Rendered by app.js -->
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- 3. PRODUCT CRUD MANAGEMENT -->
+    <section class="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden">
+      
+      <div class="p-5 sm:p-6 border-b border-neutral-200 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-boxes-stacked text-lg text-black"></i>
+            <h2 class="text-base font-black text-gray-900 uppercase">จัดการสินค้าในร้านค้า (PRODUCT CRUD)</h2>
+            <span class="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-200 flex items-center gap-1">
+              <i class="fa-solid fa-infinity text-[9px]"></i> เพิ่มสินค้าได้ไม่จำกัดจำนวน
+            </span>
+          </div>
+          <p class="text-xs text-gray-500 mt-0.5">เพิ่มสินค้าได้ไม่จำกัด แก้ไขราคา ไซส์ รูปภาพ หรือลบสินค้าออกจากหน้าร้าน (ระบบฐานข้อมูลความจุสูง)</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- Search Box -->
+          <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+            <input 
+              type="text" 
+              id="adminProductSearchInput" 
+              oninput="handleAdminProductSearch()" 
+              placeholder="ค้นหาชื่อสินค้า, รหัส VTX..." 
+              class="pl-8 pr-3 py-2 text-xs rounded-xl border border-neutral-200 outline-none focus:border-black bg-neutral-50 w-48 sm:w-56 transition"
+            />
+          </div>
+
+          <!-- Category Filter -->
+          <select 
+            id="adminProductCategoryFilter" 
+            onchange="handleAdminProductSearch()" 
+            class="px-3 py-2 text-xs rounded-xl border border-neutral-200 outline-none focus:border-black bg-neutral-50 text-gray-700 font-medium cursor-pointer"
+          >
+            <option value="all">หมวดหมู่ทั้งหมด</option>
+            <option value="winter">เสื้อกันหนาว</option>
+            <option value="t-shirts">เสื้อยืด</option>
+            <option value="hoodies">เสื้อฮู้ด</option>
+            <option value="shirts">เสื้อเชิ้ต</option>
+            <option value="pants">กางเกง & คาร์โก้</option>
+            <option value="jackets">แจ็กเก็ต</option>
+            <option value="accessories">กระเป๋า & หมวก</option>
+            <option value="shoes">รองเท้า</option>
+          </select>
+
+          <!-- Add Product Button -->
+          <button onclick="openAddProductModal()" class="px-4 py-2.5 bg-black hover:bg-neutral-800 text-white font-bold text-xs rounded-xl transition shadow flex items-center gap-2 shrink-0">
+            <i class="fa-solid fa-plus"></i> เพิ่มสินค้าใหม่
+          </button>
+        </div>
+      </div>
+
+      <!-- Products Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-neutral-50 text-gray-600 font-bold uppercase tracking-wider border-b border-neutral-200 text-[11px]">
+            <tr>
+              <th class="py-3.5 px-4 w-12">#</th>
+              <th class="py-3.5 px-4">สินค้า</th>
+              <th class="py-3.5 px-4">หมวดหมู่</th>
+              <th class="py-3.5 px-4">ราคาขาย</th>
+              <th class="py-3.5 px-4">ไซส์ที่มี</th>
+              <th class="py-3.5 px-4">สต็อก</th>
+              <th class="py-3.5 px-4 text-right">การจัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="adminProductsTableBody">
+            <!-- Rendered by app.js -->
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- 4. USERS MANAGEMENT -->
+    <section class="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden">
+      
+      <div class="p-5 sm:p-6 border-b border-neutral-200 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-users text-lg text-black"></i>
+            <h2 class="text-base font-black text-gray-900 uppercase">รายชื่อสมาชิกลูกค้า (CUSTOMER LIST)</h2>
+          </div>
+          <p class="text-xs text-gray-500 mt-0.5">ตรวจสอบรายชื่อ จัดการ แก้ไขข้อมูล และสถานะของสมาชิกในระบบ</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- Search Box -->
+          <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+            <input 
+              type="text" 
+              id="adminUserSearchInput" 
+              oninput="handleAdminUserSearch()" 
+              placeholder="ค้นหาชื่อ, อีเมล, เบอร์โทร..." 
+              class="pl-8 pr-3 py-2 text-xs rounded-xl border border-neutral-200 outline-none focus:border-black bg-neutral-50 w-48 sm:w-56 transition"
+            />
+          </div>
+
+          <!-- Role Filter -->
+          <select 
+            id="adminUserRoleFilter" 
+            onchange="handleAdminUserSearch()" 
+            class="px-3 py-2 text-xs rounded-xl border border-neutral-200 outline-none focus:border-black bg-neutral-50 text-gray-700 font-medium cursor-pointer"
+          >
+            <option value="all">บทบาททั้งหมด</option>
+            <option value="customer">ลูกค้า (Customer)</option>
+            <option value="admin">ผู้ดูแลระบบ (Admin)</option>
+          </select>
+
+          <!-- Add User Button -->
+          <button 
+            onclick="openAddUserModal()" 
+            class="px-4 py-2 bg-black hover:bg-neutral-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm"
+          >
+            <i class="fa-solid fa-user-plus"></i>
+            <span>เพิ่มสมาชิกใหม่</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Users Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-neutral-50 text-gray-600 font-bold uppercase tracking-wider border-b border-neutral-200 text-[11px]">
+            <tr>
+              <th class="py-3.5 px-4 w-12">ID</th>
+              <th class="py-3.5 px-4">ชื่อสมาชิก</th>
+              <th class="py-3.5 px-4">อีเมล</th>
+              <th class="py-3.5 px-4">เบอร์โทรศัพท์</th>
+              <th class="py-3.5 px-4">บทบาท</th>
+              <th class="py-3.5 px-4 text-right">จัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="adminUsersTableBody">
+            <!-- Rendered by app.js -->
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- 4.5 CUSTOMER REVIEWS MANAGEMENT -->
+    <section class="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden">
+      
+      <div class="p-5 sm:p-6 border-b border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-black text-white flex items-center justify-center text-sm shadow-xs">
+              <i class="fa-solid fa-star text-yellow-400"></i>
+            </div>
+            <h2 class="text-base font-black text-gray-900 uppercase">จัดการรีวิวของลูกค้า (CUSTOMER REVIEWS)</h2>
+            <span id="adminReviewCountBadge" class="bg-black text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+          </div>
+          <p class="text-xs text-gray-500 mt-0.5">ตรวจสอบรีวิวความประทับใจของลูกค้า ดูรูปภาพประกอบ และจัดการลบรีวิวที่ไม่เหมาะสม</p>
+        </div>
+
+        <div>
+          <a href="index.html#customerReviewsSection" target="_blank" class="px-4 py-2 border border-neutral-300 hover:border-black rounded-xl text-xs font-bold text-gray-700 hover:text-black flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> ดูรีวิวบนหน้าร้าน
+          </a>
+        </div>
+      </div>
+
+      <!-- Reviews Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-neutral-50 text-gray-600 font-bold uppercase tracking-wider border-b border-neutral-200 text-[11px]">
+            <tr>
+              <th class="py-3.5 px-4 w-12">#</th>
+              <th class="py-3.5 px-4">ผู้รีวิว & วันที่</th>
+              <th class="py-3.5 px-4">คะแนน & สินค้า</th>
+              <th class="py-3.5 px-4">ข้อความรีวิว</th>
+              <th class="py-3.5 px-4">รูปภาพ</th>
+              <th class="py-3.5 px-4 text-right">การจัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="adminReviewsTableBody">
+            <!-- Rendered by app.js -->
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- 5. LIVE CHAT & CUSTOMER SUPPORT (ระบบแชทสดบริการลูกค้า) -->
+    <section id="adminLiveChatSection" class="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden">
+      
+      <!-- Section Header -->
+      <div class="p-5 sm:p-6 border-b border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-black text-white flex items-center justify-center text-sm shadow-xs">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+            <h2 class="text-base font-black text-gray-900 uppercase">ระบบแชทสดบริการลูกค้า (LIVE CUSTOMER CHAT)</h2>
+            <span id="adminTotalChatUnreadBadge" class="bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full hidden">0 ข้อความใหม่</span>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">สนทนากับลูกค้าแบบ Real-time ตอบคำถาม ให้ข้อมูลไซส์ และติดตามคำสั่งซื้อ</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 text-xs text-green-600 font-bold bg-green-50 px-3 py-1 rounded-lg border border-green-200">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span>ระบบเชื่อมต่อสด (Live Sync Active)</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Chat Split Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-12 min-h-[500px]">
+        
+        <!-- Left: Customer Conversation List (4 cols) -->
+        <div class="md:col-span-4 border-r border-neutral-200 flex flex-col bg-neutral-50/50">
+          
+          <!-- Search box -->
+          <div class="p-3 border-b border-neutral-200 bg-white">
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input 
+                type="text" 
+                id="adminChatSearchInput" 
+                oninput="handleAdminChatSearch()" 
+                placeholder="ค้นหาชื่อลูกค้าหรือข้อความ..." 
+                class="w-full pl-8 pr-3 py-2 text-xs rounded-xl border border-neutral-200 outline-none focus:border-black bg-neutral-50"
+              />
+            </div>
+          </div>
+
+          <!-- Customer List Scroll Area -->
+          <div id="adminChatCustomerList" class="flex-1 overflow-y-auto divide-y divide-neutral-100 max-h-[480px]">
+            <!-- Rendered by app.js -->
+          </div>
+
+        </div>
+
+        <!-- Right: Active Chat Area (8 cols) -->
+        <div class="md:col-span-8 flex flex-col bg-white">
+          
+          <!-- Active Header -->
+          <div id="adminChatActiveHeader" class="p-4 border-b border-neutral-200 flex items-center justify-between bg-white shrink-0">
+            <div class="flex items-center gap-3">
+              <div id="adminChatActiveAvatar" class="w-10 h-10 rounded-full bg-neutral-200 flex items-center justify-center text-sm font-black text-gray-700 uppercase">
+                ?
+              </div>
+              <div>
+                <h4 id="adminChatActiveName" class="text-xs sm:text-sm font-black text-gray-900">กรุณาเลือกลูกค้า</h4>
+                <p id="adminChatActiveSub" class="text-[11px] text-gray-400">คลิกที่รายชื่อลูกค้าด้านซ้ายเพื่อดูบทสนทนา</p>
+              </div>
+            </div>
+            <div id="adminChatActiveActions" class="flex items-center gap-2 hidden">
+              <span class="text-[11px] text-neutral-400 bg-neutral-100 px-2.5 py-1 rounded-md font-mono hidden sm:inline" id="adminChatActiveId"></span>
+              <button 
+                type="button" 
+                onclick="clearActiveCustomerChat()" 
+                title="ล้างข้อความทั้งหมดในการสนทนานี้" 
+                class="px-2.5 py-1 text-xs text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg transition flex items-center gap-1.5 border border-amber-200 shadow-2xs cursor-pointer"
+              >
+                <i class="fa-solid fa-broom text-[11px]"></i>
+                <span class="hidden md:inline">ล้างข้อความ</span>
+              </button>
+              <button 
+                type="button" 
+                onclick="deleteActiveCustomerChat()" 
+                title="ลบห้องแชทของลูกค้ารายนี้ทั้งหมด" 
+                class="px-2.5 py-1 text-xs text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition flex items-center gap-1.5 border border-red-200 shadow-2xs cursor-pointer"
+              >
+                <i class="fa-solid fa-trash-can text-[11px]"></i>
+                <span class="hidden md:inline">ลบแชทลูกค้า</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Message History -->
+          <div id="adminChatMessageHistory" class="flex-1 p-4 overflow-y-auto space-y-3 bg-neutral-50/70 max-h-[380px] min-h-[320px] flex flex-col">
+            <div class="my-auto text-center text-gray-400 py-12">
+              <div class="w-12 h-12 rounded-full bg-neutral-100 flex items-center justify-center text-xl mx-auto mb-2 text-gray-300">
+                <i class="fa-solid fa-comments"></i>
+              </div>
+              <p class="text-xs">เลือกลูกค้าจากแถบด้านซ้ายเพื่อเริ่มการสนทนา</p>
+            </div>
+          </div>
+
+          <!-- Quick Replies Presets -->
+          <div id="adminChatQuickReplies" class="p-2 border-t border-neutral-100 bg-neutral-50/50 flex gap-1.5 overflow-x-auto scrollbar-none text-[11px] shrink-0 hidden">
+            <span class="text-[10px] font-bold text-gray-400 px-2 py-1 uppercase tracking-wider shrink-0 flex items-center">ข้อความด่วน:</span>
+            <button type="button" onclick="sendAdminQuickReply('สวัสดีครับ ทางร้าน VORTEX ยินดีให้บริการครับ')" class="px-2.5 py-1 rounded-full bg-white hover:bg-black hover:text-white border border-neutral-200 text-gray-700 transition font-medium shrink-0">
+              👋 สวัสดีครับ ยินดีให้บริการ
+            </button>
+            <button type="button" onclick="sendAdminQuickReply('สินค้าชิ้นนี้มีของพร้อมจัดส่งเลยครับ สั่งซื้อได้ทันทีครับผม')" class="px-2.5 py-1 rounded-full bg-white hover:bg-black hover:text-white border border-neutral-200 text-gray-700 transition font-medium shrink-0">
+              📦 มีสินค้าพร้อมส่ง
+            </button>
+            <button type="button" onclick="sendAdminQuickReply('ทางร้านจัดส่งสินค้าทุกวัน รอบจัดส่งวันนี้ 15:00 น. ครับ')" class="px-2.5 py-1 rounded-full bg-white hover:bg-black hover:text-white border border-neutral-200 text-gray-700 transition font-medium shrink-0">
+              🚚 รอบจัดส่งสินค้า
+            </button>
+            <button type="button" onclick="sendAdminQuickReply('รบกวนขอเลขออเดอร์หรือชื่อผู้สั่งซื้อสักครู่นะครับ เพื่อความรวดเร็ว')" class="px-2.5 py-1 rounded-full bg-white hover:bg-black hover:text-white border border-neutral-200 text-gray-700 transition font-medium shrink-0">
+              🔍 ขอเลขออเดอร์
+            </button>
+          </div>
+
+          <!-- Admin Chat Form -->
+          <form id="adminChatForm" onsubmit="handleAdminChatSubmit(event)" class="p-3 sm:p-4 border-t border-neutral-200 bg-white flex items-center gap-2 shrink-0">
+            <input 
+              type="text" 
+              id="adminChatInput" 
+              placeholder="พิมพ์ข้อความตอบกลับลูกค้า... (กด Enter เพื่อส่ง)" 
+              disabled 
+              autocomplete="off"
+              class="flex-1 text-xs px-4 py-2.5 rounded-xl border border-neutral-200 outline-none focus:border-black bg-neutral-50 focus:bg-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+            />
+            <button 
+              type="submit" 
+              id="adminChatSendBtn" 
+              disabled 
+              class="px-5 py-2.5 bg-black hover:bg-neutral-800 disabled:bg-neutral-300 text-white font-bold text-xs rounded-xl transition shadow flex items-center gap-2 shrink-0 disabled:cursor-not-allowed"
+            >
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+              <span class="hidden sm:inline">ส่งข้อความ</span>
+            </button>
+          </form>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="bg-white border-t border-neutral-200 py-6 text-center text-xs text-gray-500">
+    VORTEX Streetwear Atelier • Admin Management System © 2026
+  </footer>
+
+  <!-- ==========================================================================
+       MODALS FOR ADMIN
+       ========================================================================== -->
+
+  <!-- MODAL 1: PRODUCT CRUD (ADD / EDIT) -->
+  <div id="productCrudModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content-box bg-white w-full max-w-2xl max-h-[90vh] rounded-2xl shadow-2xl p-6 sm:p-8 overflow-y-auto border border-neutral-200 relative">
+      
+      <button onclick="closeProductCrudModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-black hover:text-white text-gray-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-2 pb-3 border-b border-neutral-200 mb-5">
+        <i class="fa-solid fa-shirt text-lg text-black"></i>
+        <h3 id="crudModalTitle" class="text-base font-black text-gray-900 uppercase">เพิ่มสินค้าใหม่</h3>
+      </div>
+
+      <form onsubmit="submitProductCrudForm(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="crudProductId" />
+
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">ชื่อสินค้า (Product Name) *</label>
+          <input type="text" id="crudProductName" required placeholder="เช่น VORTEX Heavyweight Boxy Tee - 'VOID'" class="w-full px-3 py-2 rounded-lg border border-neutral-300 outline-none focus:border-black" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">ราคาขายจริง (฿) *</label>
+            <input type="number" id="crudProductPrice" required min="1" placeholder="เช่น 690" class="w-full px-3 py-2 rounded-lg border border-neutral-300 outline-none focus:border-black font-sans font-bold" />
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">ราคาเต็มเดิม (฿ ขีดฆ่า)</label>
+            <input type="number" id="crudProductOriginalPrice" min="1" placeholder="เช่น 1290" class="w-full px-3 py-2 rounded-lg border border-neutral-300 outline-none focus:border-black font-sans" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">หมวดหมู่สินค้า *</label>
+            <select id="crudProductCategory" class="w-full px-3 py-2 rounded-lg border border-neutral-300 outline-none focus:border-black bg-white">
+              <option value="winter">เสื้อกันหนาว (Winter Clothes / Sweaters)</option>
+              <option value="t-shirts">เสื้อยืด (T-Shirts)</option>
+              <option value="hoodies">เสื้อฮู้ด (Hoodies)</option>
+              <option value="shirts">เสื้อเชิ้ต (Shirts)</option>
+              <option value="pants">กางเกง & คาร์โก้ (Pants & Cargo)</option>
+              <option value="jackets">แจ็กเก็ต (Jackets)</option>
+              <option value="accessories">เครื่องประดับ & หมวก (Accessories)</option>
+              <option value="shoes">รองเท้า (Shoes)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">จำนวนสต็อกสินค้า (ชิ้น) *</label>
+            <input type="number" id="crudProductStock" required min="0" placeholder="50" class="w-full px-3 py-2 rounded-lg border border-neutral-300 outline-none focus:border-black font-sans" />
+          </div>
+        </div>
+
+        <!-- Image Upload -->
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">รูปภาพสินค้า (อัปโหลดเข้าโฟลเดอร์ images / เลือกจากคลังรูป / หรือวางลิงก์)</label>
+          <input type="file" id="crudProductImageInput" accept="image/*" multiple class="hidden" onchange="handleCrudImageChange(event)" />
+          
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button type="button" onclick="document.getElementById('crudProductImageInput').click()"
+              class="flex-1 flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-dashed border-neutral-300 hover:border-black text-gray-600 hover:text-black transition justify-center text-xs font-bold bg-neutral-50 hover:bg-white">
+              <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
+              <span>คลิกเพื่ออัปโหลดไฟล์ใหม่ (บันทึกลง images/ โดยตรง)</span>
+            </button>
+            <button type="button" onclick="openImageGalleryModal()" id="btnOpenImageGallery"
+              class="px-4 py-2.5 rounded-lg border border-neutral-300 hover:border-black bg-neutral-100 hover:bg-neutral-200 text-gray-800 transition flex items-center justify-center gap-2 text-xs font-bold shadow-xs">
+              <i class="fa-solid fa-images text-black"></i>
+              <span>เลือกจากโฟลเดอร์ images (<span id="galleryCountBadge">กำลังซิงค์...</span>)</span>
+              <span id="galleryLivePulseDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block" title="ระบบตรวจจับไฟล์ใหม่ในโฟลเดอร์อัตโนมัติ"></span>
+            </button>
+          </div>
+
+          <!-- Direct URL / Local Path Input -->
+          <div class="flex gap-2 mt-2">
+            <input 
+              type="text" 
+              id="crudImageUrlInput" 
+              placeholder="พิมพ์ชื่อไฟล์ เช่น S__22102020_0.jpg หรือวางลิงก์ (ระบบจะพาเข้า images/ อัตโนมัติ)" 
+              class="flex-1 px-3 py-2 rounded-lg border border-neutral-300 text-xs outline-none focus:border-black font-sans" 
+            />
+            <button 
+              type="button" 
+              onclick="handleAddCrudImageUrl()" 
+              class="px-3.5 py-2 bg-neutral-800 hover:bg-black text-white rounded-lg text-xs font-bold transition shrink-0 flex items-center gap-1.5 shadow-xs"
+            >
+              <i class="fa-solid fa-plus"></i> เพิ่มรูปภาพ
+            </button>
+          </div>
+
+          <p class="text-[10px] text-gray-500 mt-1 flex items-center gap-1">
+            <i class="fa-solid fa-circle-check text-emerald-600"></i>
+            <span>ไฟล์รูปภาพทั้งหมดจะถูกแยกเก็บในโฟลเดอร์ <b>images/</b> โดยตรง ปลอดภัย ไม่ปะปนกับโค้ด</span>
+          </p>
+          <!-- Preview Grid -->
+          <div id="crudImagePreviewGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-2"></div>
+        </div>
+
+        <!-- Sizes Selection (up to 4XL) -->
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">ไซส์ที่มีจำหน่าย (เลือกได้หลายไซส์ มีถึง 4XL):</label>
+          <div class="flex flex-wrap gap-3 pt-1">
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" value="S" class="crud-size-checkbox custom-checkbox" checked />
+              <span class="font-bold text-xs">S</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" value="M" class="crud-size-checkbox custom-checkbox" checked />
+              <span class="font-bold text-xs">M</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" value="L" class="crud-size-checkbox custom-checkbox" checked />
+              <span class="font-bold text-xs">L</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" value="XL" class="crud-size-checkbox custom-checkbox" checked />
+              <span class="font-bold text-xs">XL</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" value="2XL" class="crud-size-checkbox custom-checkbox" checked />
+              <span class="font-bold text-xs">2XL</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" value="3XL" class="crud-size-checkbox custom-checkbox" checked />
+              <span class="font-bold text-xs">3XL</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" value="4XL" class="crud-size-checkbox custom-checkbox" checked />
+              <span class="font-bold text-xs">4XL</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">รายละเอียดและคำแนะนำสเปกผ้า</label>
+          <textarea id="crudProductDesc" rows="3" placeholder="• ผ้า Cotton 100% หนา 260 GSM..." class="w-full px-3 py-2 rounded-lg border border-neutral-300 outline-none focus:border-black"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-3 border-t border-neutral-200">
+          <button type="button" onclick="closeProductCrudModal()" class="px-4 py-2 text-gray-600 font-bold hover:text-black">
+            ยกเลิก
+          </button>
+          <button type="submit" class="px-6 py-2.5 bg-black hover:bg-neutral-800 text-white font-bold rounded-xl shadow">
+            บันทึกสินค้า
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- MODAL 2: SHIPMENT & TRACKING UPDATE -->
+  <div id="trackingModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content-box bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 border border-neutral-200 relative">
+      
+      <button onclick="closeTrackingModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-black hover:text-white text-gray-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-2 pb-3 border-b border-neutral-200 mb-4">
+        <i class="fa-solid fa-truck-fast text-lg text-black"></i>
+        <h3 class="text-base font-black text-gray-900 uppercase">อัปเดตการจัดส่งและเลขพัสดุ</h3>
+      </div>
+
+      <form onsubmit="submitTrackingForm(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="trackingOrderId" />
+
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">สถานะคำสั่งซื้อ *</label>
+          <select id="trackingStatusSelect" class="w-full px-3 py-2 rounded-lg border border-neutral-300 outline-none focus:border-black bg-white font-bold">
+            <option value="รอชำระเงิน">รอชำระเงิน</option>
+            <option value="กำลังเตรียมจัดส่ง">กำลังเตรียมจัดส่ง</option>
+            <option value="จัดส่งแล้ว">จัดส่งแล้ว</option>
+            <option value="ยกเลิก">ยกเลิกคำสั่งซื้อ</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">บริษัทขนส่ง</label>
+          <select id="trackingCourierSelect" class="w-full px-3 py-2 rounded-lg border border-neutral-300 outline-none focus:border-black bg-white">
+            <option value="SPX Express">SPX Express (Shopee Xpress)</option>
+            <option value="Flash Express">Flash Express</option>
+            <option value="Kerry Express">Kerry Express</option>
+            <option value="ไปรษณีย์ไทย (EMS)">ไปรษณีย์ไทย (EMS)</option>
+            <option value="J&T Express">J&T Express</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">หมายเลขพัสดุ (Tracking Number)</label>
+          <input type="text" id="trackingNumberInput" placeholder="เช่น TH0123456789 หรือ KER-992384" class="w-full px-3 py-2 rounded-lg border border-neutral-300 outline-none focus:border-black font-mono font-bold uppercase" />
+          <p class="text-[10px] text-gray-400 mt-1">ลูกค้ารายนี้จะสามารถเห็นเลขพัสดุในเมนู "ออเดอร์ของฉัน"</p>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-3 border-t border-neutral-200">
+          <button type="button" onclick="closeTrackingModal()" class="px-4 py-2 text-gray-600 font-bold hover:text-black">
+            ยกเลิก
+          </button>
+          <button type="submit" class="px-6 py-2.5 bg-black hover:bg-neutral-800 text-white font-bold rounded-xl shadow">
+            บันทึกข้อมูล
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- MODAL 3: PAYMENT SLIP PREVIEW -->
+  <div id="adminSlipModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content-box bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 border border-neutral-200 relative">
+      <button onclick="closeAdminSlipModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-black hover:text-white text-gray-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-2 pb-3 border-b border-neutral-200 mb-4">
+        <i class="fa-solid fa-receipt text-lg text-black"></i>
+        <h3 class="text-base font-black text-gray-900 uppercase">หลักฐานการโอนเงิน (สลิป)</h3>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="bg-neutral-50 p-3 rounded-xl border border-neutral-200 flex justify-between items-center">
+          <div>
+            <span class="text-gray-500 text-[11px] block">คำสั่งซื้อ:</span>
+            <span id="slipModalOrderId" class="font-mono font-bold text-sm text-black"></span>
+          </div>
+          <div class="text-right">
+            <span class="text-gray-500 text-[11px] block">ยอดชำระ:</span>
+            <span id="slipModalAmount" class="font-sans font-black text-sm text-emerald-600"></span>
+          </div>
+        </div>
+
+        <div class="max-h-[60vh] overflow-y-auto rounded-xl border border-neutral-200 bg-neutral-100 p-2 flex items-center justify-center">
+          <img id="slipModalImage" src="" alt="สลิปโอนเงิน" class="max-w-full h-auto rounded-lg shadow-sm" />
+        </div>
+
+        <div class="flex justify-end pt-2">
+          <button type="button" onclick="closeAdminSlipModal()" class="px-5 py-2 bg-black hover:bg-neutral-800 text-white font-bold rounded-xl transition shadow text-xs">
+            ปิดหน้าต่าง
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: USER CRUD (ADD / EDIT) -->
+  <div id="userCrudModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content-box bg-white w-full max-w-lg max-h-[90vh] rounded-2xl shadow-2xl p-6 sm:p-8 overflow-y-auto border border-neutral-200 relative">
+      
+      <button onclick="closeUserCrudModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-black hover:text-white text-gray-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-2 pb-3 border-b border-neutral-200 mb-5">
+        <i class="fa-solid fa-user-gear text-lg text-black"></i>
+        <h3 id="userCrudModalTitle" class="text-base font-black text-gray-900 uppercase">แก้ไขข้อมูลสมาชิก</h3>
+      </div>
+
+      <form onsubmit="submitUserCrudForm(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="crudUserId" />
+
+        <div id="crudUserIdDisplayWrap" class="bg-neutral-50 p-3 rounded-xl border border-neutral-200 flex justify-between items-center hidden">
+          <span class="text-gray-500 font-medium">รหัสสมาชิก (User ID):</span>
+          <span id="crudUserIdDisplay" class="font-mono font-bold text-gray-900 text-xs"></span>
+        </div>
+
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">ชื่อ-นามสกุล / ชื่อสมาชิก *</label>
+          <input 
+            type="text" 
+            id="crudUserName" 
+            required 
+            placeholder="เช่น สมชาย ใจสตรีท หรือ Admin VORTEX" 
+            class="w-full px-3 py-2.5 rounded-lg border border-neutral-300 outline-none focus:border-black text-xs transition" 
+          />
+        </div>
+
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">อีเมล / ชื่อผู้ใช้งาน (Username) *</label>
+          <input 
+            type="text" 
+            id="crudUserEmail" 
+            required 
+            placeholder="เช่น user@vortex.com หรือ tawanwat" 
+            class="w-full px-3 py-2.5 rounded-lg border border-neutral-300 outline-none focus:border-black text-xs transition" 
+          />
+          <p class="text-[10px] text-gray-400 mt-1">ใช้สำหรับเข้าสู่ระบบของสมาชิกรายนี้</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">เบอร์โทรศัพท์</label>
+            <input 
+              type="text" 
+              id="crudUserPhone" 
+              placeholder="08X-XXX-XXXX" 
+              class="w-full px-3 py-2.5 rounded-lg border border-neutral-300 outline-none focus:border-black text-xs transition" 
+            />
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">บทบาท / สิทธิ์การใช้งาน *</label>
+            <select 
+              id="crudUserRole" 
+              class="w-full px-3 py-2.5 rounded-lg border border-neutral-300 outline-none focus:border-black bg-white text-xs font-bold transition"
+            >
+              <option value="customer">ลูกค้าทั่วไป (Customer)</option>
+              <option value="admin">ผู้ดูแลระบบ (Admin)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">
+            <span id="crudUserPasswordLabel">รหัสผ่าน (Password) *</span>
+          </label>
+          <div class="relative">
+            <input 
+              type="password" 
+              id="crudUserPassword" 
+              placeholder="กรอกรหัสผ่าน..." 
+              class="w-full pl-3 pr-10 py-2.5 rounded-lg border border-neutral-300 outline-none focus:border-black text-xs font-mono transition" 
+            />
+            <button 
+              type="button" 
+              onclick="toggleCrudPasswordVisibility()" 
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition"
+            >
+              <i id="crudPasswordEyeIcon" class="fa-solid fa-eye text-xs"></i>
+            </button>
+          </div>
+          <p id="crudUserPasswordHint" class="text-[10px] text-gray-400 mt-1">
+            * หากแก้ไขข้อมูล สามารถกรอกรหัสใหม่เพื่อเปลี่ยน หรือปล่อยว่างไว้เพื่อใช้รหัสเดิม
+          </p>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-4 border-t border-neutral-200">
+          <button 
+            type="button" 
+            onclick="closeUserCrudModal()" 
+            class="px-4 py-2.5 text-gray-600 font-bold hover:text-black transition text-xs"
+          >
+            ยกเลิก
+          </button>
+          <button 
+            type="submit" 
+            class="px-6 py-2.5 bg-black hover:bg-neutral-800 text-white font-bold rounded-xl shadow transition text-xs flex items-center gap-1.5"
+          >
+            <i class="fa-solid fa-floppy-disk"></i>
+            <span>บันทึกข้อมูลสมาชิก</span>
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Modal: คลังรูปภาพในโฟลเดอร์ images -->
+  <div id="imageGalleryModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content-box bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-neutral-200">
+      
+      <!-- Header -->
+      <div class="p-4 border-b border-neutral-200 flex items-center justify-between bg-neutral-50 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-black text-white flex items-center justify-center text-sm shadow-xs">
+            <i class="fa-solid fa-folder-open text-amber-400"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-gray-900 flex items-center gap-2 flex-wrap">
+              <span>คลังรูปภาพในโฟลเดอร์ images</span>
+              <span id="galleryTotalBadge" class="text-xs bg-black text-white px-2 py-0.5 rounded-full font-sans">0 รูป</span>
+              <span id="galleryLiveSyncIndicator" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>ซิงค์โฟลเดอร์สด (Auto-Sync)</span>
+              </span>
+            </h3>
+            <p class="text-xs text-gray-500">คลิกเลือกรูปภาพเพื่อเพิ่มลงในสินค้าทันที หรือนำไฟล์รูปใหม่ใส่ลงโฟลเดอร์ images/ ระบบจะอัปเดตให้อัตโนมัติ</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="syncImagesCatalogFromServer(true)" id="btnManualRescanImages" title="สแกนโฟลเดอร์หาไฟล์รูปใหม่" class="px-3 py-1.5 rounded-lg border border-neutral-300 hover:border-black bg-white hover:bg-neutral-100 text-gray-700 text-xs font-bold transition flex items-center gap-1.5 shadow-xs cursor-pointer">
+            <i class="fa-solid fa-arrows-rotate text-xs" id="rescanImagesIcon"></i>
+            <span>สแกนไฟล์ใหม่</span>
+          </button>
+          <button type="button" onclick="closeImageGalleryModal()" class="w-8 h-8 rounded-lg hover:bg-neutral-200 text-gray-500 hover:text-black flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="p-3 border-b border-neutral-200 bg-white flex flex-col sm:flex-row gap-2 shrink-0 items-center justify-between">
+        <div class="relative w-full sm:w-72">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+          <input 
+            type="text" 
+            id="gallerySearchInput" 
+            oninput="handleGallerySearch()" 
+            placeholder="ค้นหาชื่อไฟล์ เช่น S__2210..." 
+            class="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-neutral-300 outline-none focus:border-black font-sans" 
+          />
+        </div>
+
+        <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
+          <button type="button" onclick="setGalleryFilter('all')" id="galleryTab_all" class="gallery-tab-btn px-3 py-1 rounded-lg text-xs font-bold bg-black text-white transition">ทั้งหมด</button>
+          <button type="button" onclick="setGalleryFilter('เสื้อผ้า')" id="galleryTab_clothes" class="gallery-tab-btn px-3 py-1 rounded-lg text-xs font-bold bg-neutral-100 hover:bg-neutral-200 text-gray-700 transition">โฟลเดอร์ เสื้อผ้า</button>
+          <button type="button" onclick="setGalleryFilter('root')" id="galleryTab_root" class="gallery-tab-btn px-3 py-1 rounded-lg text-xs font-bold bg-neutral-100 hover:bg-neutral-200 text-gray-700 transition">โฟลเดอร์ images หลัก</button>
+        </div>
+      </div>
+
+      <!-- Gallery Grid Container -->
+      <div class="flex-1 overflow-y-auto p-4 min-h-[300px] max-h-[55vh] bg-neutral-50">
+        <div id="galleryGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
+          <!-- Rendered dynamically -->
+        </div>
+        <div id="galleryEmpty" class="hidden text-center py-16 text-gray-400">
+          <i class="fa-regular fa-image text-4xl mb-2"></i>
+          <p class="text-xs">ไม่พบรูปภาพที่ค้นหา</p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="p-3 border-t border-neutral-200 bg-white flex items-center justify-between shrink-0">
+        <div class="text-xs text-gray-500">
+          <span>เลือกแล้ว: </span>
+          <span id="gallerySelectedCount" class="font-bold text-black">0</span>
+          <span> รูป</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeImageGalleryModal()" class="px-4 py-2 text-xs font-bold text-gray-600 hover:text-black">ปิด</button>
+          <button type="button" onclick="applySelectedGalleryImages()" class="px-5 py-2 text-xs font-bold bg-black hover:bg-neutral-800 text-white rounded-xl shadow-xs transition flex items-center gap-1.5">
+            <i class="fa-solid fa-check"></i>
+            <span>เพิ่มรูปที่เลือกเข้าสินค้า</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- REVIEW IMAGE LIGHTBOX MODAL (ดูรูปรีวิวขยายใหญ่) -->
+  <div id="reviewImageLightboxModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm" onclick="closeReviewImageLightbox()">
+    <div class="relative max-w-2xl w-full flex flex-col items-center" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeReviewImageLightbox()" class="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/20 hover:bg-white text-white hover:text-black flex items-center justify-center transition shadow-lg backdrop-blur-md">
+        <i class="fa-solid fa-xmark text-base"></i>
+      </button>
+      <div class="rounded-2xl overflow-hidden bg-black border border-white/20 shadow-2xl max-h-[80vh] flex items-center justify-center">
+        <img id="reviewLightboxImg" src="" alt="ภาพรีวิวขยายใหญ่" class="max-w-full max-h-[80vh] object-contain" />
+      </div>
+      <div id="reviewLightboxTitle" class="mt-3 text-white text-xs font-bold text-center tracking-wide bg-black/60 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-md">
+        รูปภาพรีวิวจากลูกค้า VORTEX
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK Compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <!-- Core JavaScript -->
+  <script src="app.js?v=20260920"></script>
+  
+  <!-- Dynamic Admin Background & FX Studio -->
+  <script src="admin-background.js"></script>
+</body>
+</html>

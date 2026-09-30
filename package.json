@@ -1,0 +1,15 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "ระบบเว็บไซต์ร้านค้าเสื้อผ้าสตรีทแวร์มินิมอล **VORTEX** ในธีมสี **ขาว-ดำ (Black & White)** พร้อมระบบสมาชิก (Authentication), การควบคุมสิทธิ์การสั่งซื้อ และระบบหลังบ้านสำหรับผู้ดูแลระบบ (Admin Dashboard) แบบครบวงจร",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {}
+}

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | VORTEX Streetwear</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/vortex_logo.png" />
+
+  <style>
+    /* Tactical Cyber Grid Pattern */
+    .tactical-grid-pattern {
+      background-image: 
+        linear-gradient(to right, rgba(250, 204, 21, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(250, 204, 21, 0.05) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 35%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 35%, transparent 100%);
+    }
+
+    /* Outlined Typography Watermark */
+    .watermark-stroke {
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.03);
+      color: transparent;
+      user-select: none;
+    }
+
+    /* Glowing Pulse Animations */
+    @keyframes floatAmberSlow {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-20px) scale(1.06); }
+    }
+    @keyframes floatAmberReverse {
+      0%, 100% { transform: translateY(0px) scale(1.06); }
+      50% { transform: translateY(20px) scale(1); }
+    }
+    .animate-float-amber {
+      animation: floatAmberSlow 14s ease-in-out infinite;
+    }
+    .animate-float-amber-rev {
+      animation: floatAmberReverse 16s ease-in-out infinite;
+    }
+
+    /* Glowing Accent Bar */
+    @keyframes yellowPulse {
+      0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.6)); }
+      50% { opacity: 1; filter: drop-shadow(0 0 14px rgba(250, 204, 21, 0.9)); }
+    }
+    .yellow-accent-glow {
+      animation: yellowPulse 3.5s ease-in-out infinite;
+    }
+
+    /* Input Focus Glow */
+    .admin-input:focus {
+      border-color: #facc15;
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.15);
+    }
+  </style>
+</head>
+<body class="bg-[#070709] min-h-screen flex flex-col justify-between text-white selection:bg-yellow-400 selection:text-black relative overflow-x-hidden">
+
+  <!-- ================= BACKGROUND INTERACTIVE EFFECTS ================= -->
+
+  <!-- Interactive Mouse Spotlight (แสงสีอำพัน/ทองไล่ตามเมาส์) -->
+  <div 
+    id="adminMouseSpotlight" 
+    class="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
+    style="background: radial-gradient(700px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(250, 204, 21, 0.07), transparent 75%);"
+  ></div>
+
+  <!-- Tactical Cyber Grid Pattern -->
+  <div class="pointer-events-none fixed inset-0 z-0 tactical-grid-pattern"></div>
+
+  <!-- Ambient Glowing Blobs -->
+  <div class="pointer-events-none fixed -top-40 -left-20 w-[550px] h-[550px] bg-yellow-500/10 rounded-full blur-[140px] animate-float-amber z-0"></div>
+  <div class="pointer-events-none fixed -bottom-40 -right-20 w-[650px] h-[650px] bg-neutral-600/15 rounded-full blur-[160px] animate-float-amber-rev z-0"></div>
+
+  <!-- Giant Typographic Background Watermark -->
+  <div class="pointer-events-none select-none fixed inset-0 z-0 overflow-hidden flex flex-col justify-between p-6 sm:p-12 opacity-50">
+    <div class="watermark-stroke text-[18vw] font-black tracking-tighter leading-none">
+      VORTEX
+    </div>
+    <div class="watermark-stroke text-[13vw] font-black tracking-tighter leading-none text-right">
+      COMMAND
+    </div>
+  </div>
+
+  <!-- Tactical Security HUD Elements (ลวดลายตกแต่งด้านซ้าย-ขวาบนจอใหญ่) -->
+  <div class="pointer-events-none hidden xl:flex flex-col gap-4 fixed left-8 top-1/2 -translate-y-1/2 z-0 font-mono text-[10px] text-neutral-400 select-none">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-yellow-400 animate-ping"></span>
+      <span class="text-yellow-400 font-bold">SECURITY CLEARANCE: LEVEL 5</span>
+    </div>
+    <div class="border-l border-yellow-500/40 pl-3 py-1 space-y-1">
+      <div>PROTOCOL: ADMIN_VORTEX_CORE</div>
+      <div>ENCRYPTION: AES-256-GCM</div>
+      <div class="text-neutral-400">ACCESS: RESTRICTED // PERSONNEL ONLY</div>
+    </div>
+    <!-- Technical Code Readout -->
+    <div class="pt-2 opacity-50 font-mono text-[9px] text-neutral-400 leading-tight">
+      <div>SESSION_ID: #VX-ADMIN-2026</div>
+      <div>NODE: LOCALHOST // SECURE</div>
+    </div>
+  </div>
+
+  <div class="pointer-events-none hidden xl:flex flex-col items-end gap-3 fixed right-8 top-1/2 -translate-y-1/2 z-0 font-mono text-[10px] text-neutral-400 select-none">
+    <div class="px-2.5 py-1 rounded-full bg-yellow-400/10 border border-yellow-400/30 text-yellow-400 font-bold flex items-center gap-1.5">
+      <i class="fa-solid fa-shield-halved text-xs"></i>
+      <span>ADMIN CONSOLE</span>
+    </div>
+    <div class="text-right text-[9px] text-neutral-400 leading-relaxed font-mono">
+      AUTHORIZED ACCESS REQUIRED<br />
+      MULTI-TIER ENCRYPTED DATABASE<br />
+      PORTAL STATUS: ONLINE
+    </div>
+    <div class="flex items-center gap-1.5 text-neutral-400 text-[10px]">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+      <span>READY FOR AUTHENTICATION</span>
+    </div>
+  </div>
+
+  <!-- ================= TOP NAVIGATION ================= -->
+  <header class="bg-black/40 backdrop-blur-xl border-b border-neutral-800/80 py-3.5 px-4 sm:px-8 relative z-20">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-xl bg-white border border-neutral-200 p-0.5 flex items-center justify-center shadow-lg group-hover:scale-105 group-hover:shadow-yellow-400/20 transition-all">
+          <img src="images/vortex_logo.png" alt="VORTEX" class="w-full h-full object-contain" />
+        </div>
+        <div class="flex flex-col">
+          <span class="text-lg font-black tracking-tight text-white group-hover:text-yellow-400 transition">VORTEX</span>
+          <span class="text-[9px] font-mono tracking-widest text-yellow-400/80 -mt-1 uppercase">Admin Portal</span>
+        </div>
+      </a>
+      <a href="index.html" class="text-xs font-bold text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 px-3.5 py-1.5 rounded-full flex items-center gap-2 transition shadow-sm">
+        <i class="fa-solid fa-arrow-left text-[10px]"></i>
+        <span>กลับสู่หน้าร้าน (Customer View)</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ================= MAIN ADMIN LOGIN CONTAINER ================= -->
+  <main class="flex-1 flex items-center justify-center p-4 sm:p-6 my-6 relative z-10">
+    <div class="w-full max-w-md bg-neutral-900/90 backdrop-blur-2xl rounded-3xl shadow-[0_25px_80px_-15px_rgba(0,0,0,0.9)] border border-neutral-700/80 overflow-hidden relative transition-all duration-300">
+      
+      <!-- Top Glowing Yellow Accent Line -->
+      <div class="h-1.5 w-full bg-gradient-to-r from-yellow-500 via-yellow-400 to-amber-500 yellow-accent-glow"></div>
+
+      <!-- Tactical Viewfinder Corners -->
+      <span class="absolute top-2.5 left-3 text-[10px] font-mono text-yellow-400/60 select-none pointer-events-none">┌</span>
+      <span class="absolute top-2.5 right-3 text-[10px] font-mono text-yellow-400/60 select-none pointer-events-none">┐</span>
+      <span class="absolute bottom-2.5 left-3 text-[10px] font-mono text-yellow-400/60 select-none pointer-events-none">└</span>
+      <span class="absolute bottom-2.5 right-3 text-[10px] font-mono text-yellow-400/60 select-none pointer-events-none">┘</span>
+
+      <div class="p-8 sm:p-10">
+        
+        <!-- Logo & Title -->
+        <div class="text-center mb-8">
+          <div class="w-14 h-14 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl flex items-center justify-center text-black font-black text-2xl mx-auto mb-4 shadow-lg shadow-yellow-500/20">
+            VX
+          </div>
+          <div class="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest bg-yellow-400/10 text-yellow-400 px-3 py-1 rounded-full border border-yellow-400/30 shadow-xs mb-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+            <span>RESTRICTED ACCESS</span>
+          </div>
+          <h1 class="text-2xl font-black tracking-tight text-white uppercase mt-1">Vortex Admin</h1>
+          <p class="text-xs text-neutral-400 mt-1 font-mono">AUTHORIZED PERSONNEL ONLY</p>
+        </div>
+
+        <!-- Admin Login Form -->
+        <form id="adminLoginForm" onsubmit="handleAdminLoginSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-gray-300 mb-1.5">รหัสผู้ดูแลระบบ (Admin Username)</label>
+            <div class="relative">
+              <i class="fa-solid fa-user-shield absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400 text-xs"></i>
+              <input 
+                type="text" 
+                id="adminUsername" 
+                required 
+                placeholder="tawanwat" 
+                class="admin-input w-full pl-10 pr-4 py-3 text-xs rounded-xl border border-neutral-700 outline-none bg-black/60 text-white placeholder-neutral-400 transition"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-300 mb-1.5">รหัสผ่าน (Password)</label>
+            <div class="relative">
+              <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400 text-xs"></i>
+              <input 
+                type="password" 
+                id="adminPassword" 
+                required 
+                placeholder="••••••••" 
+                class="admin-input w-full pl-10 pr-10 py-3 text-xs rounded-xl border border-neutral-700 outline-none bg-black/60 text-white placeholder-neutral-400 transition"
+              />
+              <button 
+                type="button" 
+                onclick="toggleAdminPasswordVisibility()" 
+                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-yellow-400 text-xs transition p-1"
+                title="แสดง/ซ่อนรหัสผ่าน"
+              >
+                <i id="adminEyeIcon" class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full py-3.5 bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase tracking-wider rounded-xl transition shadow-lg shadow-yellow-500/10 mt-3 flex items-center justify-center gap-2 active:scale-[0.99] cursor-pointer"
+          >
+            <i class="fa-solid fa-arrow-right-to-bracket text-xs"></i> เข้าสู่ระบบแอดมิน
+          </button>
+        </form>
+
+      </div>
+
+      <!-- Footer Info -->
+      <div class="p-4 bg-black/60 border-t border-neutral-800 text-center text-[11px] text-gray-400">
+        <a href="index.html" class="hover:text-yellow-400 transition flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-arrow-left text-[10px]"></i> กลับสู่หน้าร้าน (Customer View)
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="py-4 text-center text-xs text-neutral-400 font-mono relative z-10 border-t border-neutral-800/80 bg-black/40 backdrop-blur-md">
+    <div class="flex items-center justify-center gap-2">
+      <span class="inline-block w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+      <span>© 2026 VORTEX Admin Console. All Security Protocols Engaged.</span>
+    </div>
+  </footer>
+
+  <!-- Firebase SDK Compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <!-- Scripts -->
+  <script src="app.js?v=20260920"></script>
+  <script>
+    // Mouse Interactive Spotlight Tracker
+    document.addEventListener("mousemove", (e) => {
+      const spotlight = document.getElementById("adminMouseSpotlight");
+      if (spotlight) {
+        spotlight.style.setProperty("--mouse-x", `${e.clientX}px`);
+        spotlight.style.setProperty("--mouse-y", `${e.clientY}px`);
+      }
+    });
+
+    // Toggle Show/Hide Password
+    function toggleAdminPasswordVisibility() {
+      const passInput = document.getElementById("adminPassword");
+      const eyeIcon = document.getElementById("adminEyeIcon");
+      if (!passInput || !eyeIcon) return;
+
+      if (passInput.type === "password") {
+        passInput.type = "text";
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");
+      } else {
+        passInput.type = "password";
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initStorage();
+      
+      // ถ้ายืนยันว่าเป็นแอดมินอยู่แล้ว ให้ไปหน้า admin เลย
+      const user = getCurrentUser();
+      if (user && user.role === "admin") {
+        window.location.href = "admin.html";
+      }
+    });
+
+    function handleAdminLoginSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById("adminUsername").value.trim();
+      const password = document.getElementById("adminPassword").value.trim();
+
+      const res = loginUser(email, password);
+      
+      if (res.success) {
+        if (res.user.role === "admin") {
+          showToast("เข้าสู่ระบบแอดมินสำเร็จ! กำลังไปที่หน้าจัดการ...", "success");
+          setTimeout(() => {
+            window.location.href = "admin.html";
+          }, 400);
+        } else {
+          // เป็นลูกค้า แต่มาล็อกอินหน้าแอดมิน
+          logout();
+          showToast("บัญชีนี้ไม่มีสิทธิ์เข้าถึงระบบหลังบ้าน!", "error");
+        }
+      } else {
+        showToast("ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง!", "error");
+      }
+    }
+  </script>
+</body>
+</html>
