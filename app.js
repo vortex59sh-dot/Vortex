@@ -65,7 +65,13 @@ function initFirestoreSync() {
     if (!snapshot.empty) {
       const firestoreProducts = [];
       snapshot.forEach(doc => {
-        firestoreProducts.push({ id: doc.id, ...doc.data() });
+        const d = doc.data();
+        firestoreProducts.push({
+          id: doc.id,
+          ...d,
+          stock: Number(d.stock !== undefined && d.stock !== null && !isNaN(Number(d.stock)) ? d.stock : 0),
+          soldCount: Number(d.soldCount !== undefined && d.soldCount !== null && !isNaN(Number(d.soldCount)) ? d.soldCount : 0)
+        });
       });
 
       firestoreProducts.sort((a, b) => {
@@ -105,6 +111,42 @@ function initFirestoreSync() {
       if (typeof renderAdminProductsTable === "function" && document.getElementById("adminProductsTableBody")) {
         renderAdminProductsTable();
         renderAdminStats();
+      }
+
+      // หากเปิดโมดัลรายละเอียดสินค้าอยู่ ให้อัปเดตข้อมูลแบบสดทันที
+      if (state.currentDetailProduct) {
+        const liveDetail = firestoreProducts.find(p => p.id === state.currentDetailProduct.id);
+        if (liveDetail) {
+          state.currentDetailProduct = liveDetail;
+          const isOutOfStock = Number(liveDetail.stock) <= 0;
+          const stockEl = document.getElementById("modalProductStock");
+          if (stockEl) {
+            if (isOutOfStock) {
+              stockEl.innerHTML = `<span class="inline-flex items-center gap-1 bg-red-100 text-red-600 font-bold px-2 py-0.5 rounded-full text-[11px]"><i class="fa-solid fa-ban text-[9px]"></i> สินค้าหมด</span>`;
+            } else {
+              stockEl.innerText = `${liveDetail.stock} ชิ้น`;
+            }
+          }
+          const addCartBtn = document.getElementById("modalAddCartBtn");
+          const buyNowBtn = document.getElementById("modalBuyNowBtn");
+          const qtyInput = document.getElementById("modalQuantityInput");
+          if (isOutOfStock) {
+            if (qtyInput) {
+              qtyInput.value = 0;
+              qtyInput.disabled = true;
+            }
+            if (addCartBtn) {
+              addCartBtn.disabled = true;
+              addCartBtn.className = "w-full py-3.5 px-4 bg-neutral-200 text-neutral-400 border-2 border-neutral-300 font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 cursor-not-allowed opacity-60";
+              addCartBtn.innerHTML = '<i class="fa-solid fa-ban text-sm"></i> <span class="font-bold">สินค้าหมด</span>';
+            }
+            if (buyNowBtn) {
+              buyNowBtn.disabled = true;
+              buyNowBtn.className = "w-full py-3.5 px-4 bg-neutral-300 text-neutral-400 font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 cursor-not-allowed opacity-60 pointer-events-none";
+              buyNowBtn.innerHTML = '<span class="font-bold">ไม่พร้อมจำหน่าย</span>';
+            }
+          }
+        }
       }
     }
   }, (err) => {
@@ -1693,7 +1735,7 @@ function addProduct(data) {
       { name: "Black", hex: "#0a0a0a", previewImage: imgs[0] }
     ],
     sizes: data.sizes && data.sizes.length > 0 ? data.sizes : ["S", "M", "L", "XL", "2XL"],
-    stock: Number(data.stock) !== undefined ? Number(data.stock) : 50,
+    stock: (data.stock !== undefined && data.stock !== null && data.stock !== "" && !isNaN(Number(data.stock))) ? Math.max(0, Number(data.stock)) : 50,
     description: data.description || "• ผลิตจากวัตถุดิบคุณภาพพรีเมียม ดีไซน์สตรีทแวร์ VORTEX\n• สวมใส่สบาย ทรงสวย ทนทาน",
     sizeGuide: [
       { size: "S", chest: '40"', length: '27"', shoulder: '20"' },
@@ -1730,7 +1772,7 @@ function updateProduct(id, data) {
     categoryLabel: catLabel,
     price: Number(data.price) || prev.price,
     originalPrice: Number(data.originalPrice) || prev.originalPrice,
-    stock: Number(data.stock) !== undefined ? Number(data.stock) : prev.stock,
+    stock: (data.stock !== undefined && data.stock !== null && data.stock !== "" && !isNaN(Number(data.stock))) ? Math.max(0, Number(data.stock)) : prev.stock,
     sizes: data.sizes && data.sizes.length > 0 ? data.sizes : prev.sizes,
     description: data.description !== undefined ? data.description : prev.description
   };
@@ -3125,6 +3167,49 @@ function submitCheckoutOrder(event) {
   // บันทึกสต็อกสินค้าที่อัปเดตใหม่ลง IndexedDB และ LocalStorage ทันที
   saveStoredProducts(currentProducts);
   state.products = currentProducts;
+
+  // บันทึกการตัดสต็อกและเพิ่มยอดขายไปยัง Cloud Firestore ทันที (ป้องกัน Real-time onSnapshot ดึงสต็อกเดิมกลับมา)
+  if (db) {
+    try {
+      const batch = db.batch();
+      orderedItems.forEach(item => {
+        const prod = currentProducts.find(p => p.id === item.productId);
+        if (prod) {
+          const docRef = db.collection("products").doc(prod.id);
+          batch.set(docRef, {
+            stock: Math.max(0, Number(prod.stock || 0)),
+            soldCount: Number(prod.soldCount || 0)
+          }, { merge: true });
+        }
+      });
+      batch.commit().then(() => {
+        console.log("🔥 ซิงก์การตัดสต็อกสินค้าไปยัง Cloud Firestore สำเร็จแล้ว!");
+      }).catch(err => {
+        console.error("Firestore batch update stock error:", err);
+        // แผนสำรอง: อัปเดตรายชิ้นหาก batch ล้มเหลว
+        orderedItems.forEach(item => {
+          const prod = currentProducts.find(p => p.id === item.productId);
+          if (prod) {
+            db.collection("products").doc(prod.id).set({
+              stock: Math.max(0, Number(prod.stock || 0)),
+              soldCount: Number(prod.soldCount || 0)
+            }, { merge: true }).catch(e => console.error("Firestore single stock update error:", e));
+          }
+        });
+      });
+    } catch (batchErr) {
+      console.warn("Firestore batch init error:", batchErr);
+      orderedItems.forEach(item => {
+        const prod = currentProducts.find(p => p.id === item.productId);
+        if (prod) {
+          db.collection("products").doc(prod.id).set({
+            stock: Math.max(0, Number(prod.stock || 0)),
+            soldCount: Number(prod.soldCount || 0)
+          }, { merge: true }).catch(err => console.error("Firestore single stock update error:", err));
+        }
+      });
+    }
+  }
 
   createOrder(orderPayload);
 
